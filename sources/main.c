@@ -1,17 +1,20 @@
+#include <stdlib.h>
 #include <mlx.h>
 #include <libft.h>
 #include "fdf.h"
-// @TODO
+// @TODO rm these include bellow
+#include <unistd.h>
 int	main(void)
 {
 	t_app	app;
+	t_map	map;
 
 	init_app(&app);
-	put_pixel(&app, 5, 5, 0x00FF0000);
-	flush(&app);
-	for (int i = 0; i < 2000; i++)
-		put_pixel(&app, i, 5, 0x00FF0000);
-	read()
-	flush(&app);
+	init_map(&map, NULL);
+	if (!map.tab)
+		return (1);
+
+	print_map(&map, &app);
 	mlx_loop(app.mlx);
+	free(map.tab);
 }

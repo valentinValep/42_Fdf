@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 02:24:43 by marvin            #+#    #+#              #
-#    Updated: 2022/12/21 09:10:30 by vlepille         ###   ########.fr        #
+#    Updated: 2022/12/21 12:40:20 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ SOURCES_DIR := sources
 BINARIES_DIR := binaries
 
 SRC := main.c \
-	app.c
+	app.c \
+	map.c \
+	3d.c
 
 OBJ := $(SRC:.c=.o)
 
@@ -35,6 +37,8 @@ OBJ := $(addprefix $(BINARIES_DIR)/,$(OBJ))
 RM := rm -f
 
 $(NAME) : $(OBJ)
+	make -C libft
+	make -C minilibx-linux
 	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
 
 $(BINARIES_DIR) :
@@ -46,9 +50,12 @@ $(BINARIES_DIR)/%.o : $(SOURCES_DIR)/%.c $(SOURCES_DIR)/fdf.h | $(BINARIES_DIR)
 all : $(NAME)
 
 clean :
+	make -C libft clean
+	make -C minilibx-linux clean
 	$(RM) $(OBJ)
 
 fclean : clean
+	make -C libft fclean
 	$(RM) $(NAME)
 
 re : fclean all

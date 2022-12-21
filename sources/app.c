@@ -25,7 +25,7 @@ void	init_app(t_app *app)
 void	put_pixel(t_app *app, int x, int y, int color)
 {
 	char			*dst;
-	t_img *const	img = &app->render.imgs[app->render.seq];
+	t_img *const	img = &app->render.imgs[(int) app->render.seq];
 
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
@@ -34,6 +34,6 @@ void	put_pixel(t_app *app, int x, int y, int color)
 void	flush(t_app *app)
 {
 	mlx_put_image_to_window(app->mlx, app->window,
-		app->render.imgs[app->render.seq].img, 0, 0);
+		app->render.imgs[(int) app->render.seq].img, 0, 0);
 	app->render.seq = (app->render.seq + 1) % 2;
 }
