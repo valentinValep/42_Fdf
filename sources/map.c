@@ -35,6 +35,7 @@ static int	new_map(t_map *map, char	**line_split, int len)
 	{
 		map->tab[i] = old_tab[i];
 	}
+	i--;
 	while (++i < len)
 	{
 		new_point.x = i % map->width * ZOOM + START_X;
