@@ -4,17 +4,21 @@
 #include "fdf.h"
 // @TODO rm these include bellow
 #include <unistd.h>
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_app	app;
 	t_map	map;
 
-	init_app(&app);
-	init_map(&map, NULL);
-	if (!map.tab)
+	if (argc != 2)
 		return (1);
+	init_app(&app);
+	if (init_map(&map, argv[1]))
+		return (2);
+	if (!map.tab)
+		return (3);
 
 	print_map(&map, &app);
 	mlx_loop(app.mlx);
 	free(map.tab);
+	return (0);
 }

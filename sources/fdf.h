@@ -3,6 +3,9 @@
 
 # include <mlx.h>
 
+# define WINDOW_WIDTH 1920
+# define WINDOW_HEIGHT 1080
+
 typedef struct s_img
 {
 	void	*img;
@@ -45,6 +48,8 @@ t_point	projection(t_point point);
 
 # define POINTS_PER_LINE 1000
 # define ZOOM 100
+# define CAM_X 100
+# define CAM_Y 100
 # define START_X 100
 # define START_Y 100
 
@@ -55,7 +60,7 @@ typedef struct s_map
 	int		width;
 }	t_map;
 
-void	init_map(t_map *map, char *str);
+int	init_map(t_map *map, char *str);
 void	print_map(t_map *map, t_app *app);
 
 #endif
