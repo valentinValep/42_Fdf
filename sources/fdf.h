@@ -3,6 +3,8 @@
 
 # include <mlx.h>
 
+# define XK_MISCELLANY
+# define XK_LATIN1
 # define WINDOW_WIDTH 1920
 # define WINDOW_HEIGHT 1080
 
@@ -31,37 +33,47 @@ typedef struct s_app
 void	init_app(t_app *app);
 void	flush(t_app *app);
 void	put_pixel(t_app *app, int x, int y, int color);
-int		app_close(int keycode, t_app *app);
+int		app_close(t_app *app);
 
-# define X_AXIS 1
-# define Y_AXIS 2
-# define Z_AXIS 4
+# define ZOOM 50
+# define POINTS_PER_LINE ZOOM
+# define CAM_X 100
+# define CAM_Y 100
+# define START_X 100
+# define START_Y 100
 
 typedef struct s_point
 {
 	double	x;
 	double	y;
 	double	z;
+	int		color;
 }	t_point;
-
-t_point	rotate(t_point point, char axis, double degree);
-t_point	projection(t_point point);
-
-# define POINTS_PER_LINE 1000
-# define ZOOM 50
-# define CAM_X 100
-# define CAM_Y 100
-# define START_X 100
-# define START_Y 100
 
 typedef struct s_map
 {
 	t_point	*tab;
+	int		malloc_size;
 	int		height;
 	int		width;
 }	t_map;
 
 int		init_map(t_map *map, char *str);
 void	print_map(t_map *map, t_app *app);
+
+# define X_AXIS 1
+# define Y_AXIS 2
+# define Z_AXIS 4
+
+t_point	projection(t_point point);
+t_point	rotate(t_point point, char axis, double degree);
+void	rotate_map(t_map *map, char axis_flag, double degree);
+void	translate_map(t_map *map, char axis_flag, double value);
+
+typedef struct s_hook_args
+{
+	t_app	*app;
+	t_map	*map;
+}	t_hook_args;
 
 #endif

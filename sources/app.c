@@ -30,7 +30,7 @@ void	put_pixel(t_app *app, int x, int y, int color)
 	char			*dst;
 	t_img *const	img = &app->render.imgs[(int) app->render.seq];
 
-	if (y < 0 || y > WINDOW_HEIGHT || x < 0 || x > WINDOW_WIDTH)
+	if (y < 0 || y >= WINDOW_HEIGHT || x < 0 || x >= WINDOW_WIDTH)
 		return ;
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
@@ -57,12 +57,11 @@ void	flush(t_app *app)
 	clear_img(app->render.imgs + app->render.seq);
 }
 
-int	app_close(int keycode, t_app *app)
+int	app_close(t_app *app)
 {
 	int	return_value;
 
 	return_value = 0;
-	(void) keycode;
 	return_value |= mlx_destroy_window(app->mlx, app->window);
 	return_value |= mlx_destroy_image(app->mlx, app->render.imgs[0].img);
 	return_value |= mlx_destroy_image(app->mlx, app->render.imgs[1].img);

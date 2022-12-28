@@ -6,7 +6,7 @@
 #    By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 02:24:43 by marvin            #+#    #+#              #
-#    Updated: 2022/12/21 12:40:20 by vlepille         ###   ########.fr        #
+#    Updated: 2022/12/28 12:09:49 by vlepille         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ BINARIES_DIR := binaries
 SRC := main.c \
 	app.c \
 	map.c \
-	3d.c
+	geometric.c
 
 OBJ := $(SRC:.c=.o)
 
