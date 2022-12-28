@@ -18,7 +18,10 @@ int	main(int argc, char **argv)
 		return (3);
 
 	print_map(&map, &app);
+	mlx_hook(app.window, 2, 1L << 0, app_close, &app);
 	mlx_loop(app.mlx);
+	mlx_destroy_display(app.mlx);
+	free(app.mlx);
 	free(map.tab);
 	return (0);
 }

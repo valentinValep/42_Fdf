@@ -31,6 +31,7 @@ typedef struct s_app
 void	init_app(t_app *app);
 void	flush(t_app *app);
 void	put_pixel(t_app *app, int x, int y, int color);
+int		app_close(int keycode, t_app *app);
 
 # define X_AXIS 1
 # define Y_AXIS 2
@@ -47,7 +48,7 @@ t_point	rotate(t_point point, char axis, double degree);
 t_point	projection(t_point point);
 
 # define POINTS_PER_LINE 1000
-# define ZOOM 100
+# define ZOOM 50
 # define CAM_X 100
 # define CAM_Y 100
 # define START_X 100
@@ -60,7 +61,7 @@ typedef struct s_map
 	int		width;
 }	t_map;
 
-int	init_map(t_map *map, char *str);
+int		init_map(t_map *map, char *str);
 void	print_map(t_map *map, t_app *app);
 
 #endif

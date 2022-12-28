@@ -65,6 +65,7 @@ int	init_map(t_map *map, char *str)
 	while (line_str)
 	{
 		line_split = ft_split(line_str, ' ');
+		free(line_str);
 		if (!map->width || map->width != split_len(line_split))
 		{
 			if (map->width)
@@ -101,24 +102,24 @@ static void	print_line(t_app *app, t_point p1, t_point p2)
 	}
 }
 
-static void	print_point(t_app *app, t_point p1)
-{
-	p1.x = p1.x;
-	p1.y = p1.y;
-	put_pixel(app, round(p1.x), round(p1.y), 0x00FF0000);
-	put_pixel(app, round(p1.x + 1), round(p1.y), 0x00FF0000);
-	put_pixel(app, round(p1.x), round(p1.y + 1), 0x00FF0000);
-	put_pixel(app, round(p1.x - 1), round(p1.y), 0x00FF0000);
-	put_pixel(app, round(p1.x), round(p1.y - 1), 0x00FF0000);
-	put_pixel(app, round(p1.x + 1), round(p1.y + 1), 0x00FF0000);
-	put_pixel(app, round(p1.x - 1), round(p1.y - 1), 0x00FF0000);
-	put_pixel(app, round(p1.x + 1), round(p1.y - 1), 0x00FF0000);
-	put_pixel(app, round(p1.x - 1), round(p1.y + 1), 0x00FF0000);
-	put_pixel(app, round(p1.x + 2), round(p1.y), 0x00FF0000);
-	put_pixel(app, round(p1.x), round(p1.y + 2), 0x00FF0000);
-	put_pixel(app, round(p1.x - 2), round(p1.y), 0x00FF0000);
-	put_pixel(app, round(p1.x), round(p1.y - 2), 0x00FF0000);
-}
+//static void	print_point(t_app *app, t_point p1)
+//{
+//	p1.x = p1.x;
+//	p1.y = p1.y;
+//	put_pixel(app, round(p1.x), round(p1.y), 0x00FF0000);
+//	put_pixel(app, round(p1.x + 1), round(p1.y), 0x00FF0000);
+//	put_pixel(app, round(p1.x), round(p1.y + 1), 0x00FF0000);
+//	put_pixel(app, round(p1.x - 1), round(p1.y), 0x00FF0000);
+//	put_pixel(app, round(p1.x), round(p1.y - 1), 0x00FF0000);
+//	put_pixel(app, round(p1.x + 1), round(p1.y + 1), 0x00FF0000);
+//	put_pixel(app, round(p1.x - 1), round(p1.y - 1), 0x00FF0000);
+//	put_pixel(app, round(p1.x + 1), round(p1.y - 1), 0x00FF0000);
+//	put_pixel(app, round(p1.x - 1), round(p1.y + 1), 0x00FF0000);
+//	put_pixel(app, round(p1.x + 2), round(p1.y), 0x00FF0000);
+//	put_pixel(app, round(p1.x), round(p1.y + 2), 0x00FF0000);
+//	put_pixel(app, round(p1.x - 2), round(p1.y), 0x00FF0000);
+//	put_pixel(app, round(p1.x), round(p1.y - 2), 0x00FF0000);
+//}
 
 void	print_map(t_map *map, t_app *app)
 {
@@ -135,10 +136,10 @@ void	print_map(t_map *map, t_app *app)
 			print_line(
 				app, projection(map->tab[i]),
 				projection(map->tab[i + map->width]));
-		print_point(app, projection(map->tab[i]));
+		//print_point(app, projection(map->tab[i]));
 	}
-	print_line(app, projection((t_point){-2000, 0, 0}), projection((t_point){2000, 0, 0}));
-	print_line(app, projection((t_point){0, -2000, 0}), projection((t_point){0, 2000, 0}));
-	print_point(app, projection((t_point){0, 0, 0}));
+	//print_line(app, projection((t_point){-2000, 0, 0}), projection((t_point){2000, 0, 0}));
+	//print_line(app, projection((t_point){0, -2000, 0}), projection((t_point){0, 2000, 0}));
+	//print_point(app, projection((t_point){0, 0, 0}));
 	flush(app);
 }
