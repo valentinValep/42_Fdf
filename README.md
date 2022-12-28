@@ -1,7 +1,8 @@
 # TODOs
 - calcul the zoom according to map size
 - create geometric_point.c and geometric_map.c
-- Verif map inexistante, empty map, incorrect map (different size etc..)
+- Verif map inexistante, empty map, incorrect map (different size etc..), starting with ' '
 - verif mallocs
+- verif frees
 - valgrind
 - norm

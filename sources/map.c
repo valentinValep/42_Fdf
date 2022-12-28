@@ -31,42 +31,49 @@ void	upscale_map(t_map *map, int size)
 	map->tab = new;
 }
 
-static int	split_len(char **tab)
+static char	*get_next_word(char	*current_word)
 {
-	int	i;
-
-	i = -1;
-	while (tab[++i])
-		;
-	return (i);
+	while (*current_word && *current_word != ' ' && *current_word != '\n')
+		current_word++;
+	while (*current_word && *current_word == ' ' && *current_word != '\n')
+		current_word++;
+	return (current_word);
 }
 
-static int	new_map(t_map *map, char	**line_split, int len)
+static int	new_map(t_map *map, char	*line_str)
 {
 	int				i;
+	char			*current_word;
 	t_point			new_point;
 
-	upscale_map(map, len);
+	if (map->height == 1)
+		map->width = count_word(line_str, ' ');
+	upscale_map(map, map->width * map->height);
 	if (!map->tab)
-		return ((free_split(line_split, map->width), -1));
-	i = -1;
-	while (++i < len)
+		return (-1);
+	i = map->height * map->width - map->width;
+	current_word = line_str;
+	while (*current_word && *current_word == ' ' && *current_word != '\n')
+		current_word++;
+	while (i < map->height * map->width)
 	{
 		new_point.x = i % map->width * ZOOM + START_X;
 		new_point.y = i / map->width * ZOOM + START_Y;
-		new_point.z = ft_atoi(line_split[i % map->width]) * ZOOM;
+		new_point.z = ft_atoi(current_word) * ZOOM;
+		current_word = get_next_word(current_word);
+		if (!*current_word && i != map->height * map->width - 1)
+			return ((free(map->tab), -2));
 		new_point.color = 0x00008000;
 		map->tab[i] = new_point;
+		i++;
 	}
-	return ((free_split(line_split, map->width), 0));
+	return (0);
 }
 
 int	init_map(t_map *map, char *str)
 {
 	int		fd;
-	int		len;
 	char	*line_str;
-	char	**line_split;
 
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
@@ -74,31 +81,17 @@ int	init_map(t_map *map, char *str)
 	line_str = get_next_line(fd);
 	if (!line_str)
 		return (-2);
-	map->width = 0;
+	map->height = 1;
 	map->malloc_size = 0;
 	map->tab = NULL;
-	len = 0;
 	while (line_str)
 	{
-		line_split = ft_split(line_str, ' ');
+		if (new_map(map, line_str))
+			return ((free(line_str), gnl_close(fd), -4));
 		free(line_str);
-		if (!map->width || map->width != split_len(line_split))
-		{
-			if (map->width)
-			{
-				if (map->tab)
-					free(map->tab);
-				return ((gnl_close(fd),
-						free_split(line_split, split_len(line_split)), -3));
-			}
-			map->width = split_len(line_split);
-		}
-		len += map->width;
-		if (new_map(map, line_split, len))
-			return ((gnl_close(fd), -4));
 		line_str = get_next_line(fd);
+		map->height += 1;
 	}
-	map->height = len / map->width;
 	return (0);
 }
 
