@@ -1,15 +1,15 @@
 #include <math.h>
 #include "fdf.h"
 
-t_point	projection(t_point point)
+double	get_distance(t_point p1, t_point p2)
 {
-	t_point	res;
+	double	res;
 
-	res.color = point.color;
-	res.z = point.z;
-	res.x = (sqrt(2.) / 2) * (point.x - point.y) + WINDOW_WIDTH / 2;
-	res.y = (1. / sqrt(6.)) * (point.x + point.y) - sqrt(2. / 3.) * point.z + WINDOW_HEIGHT / 2;
-	return (res);
+	res = 0;
+	res += (p1.x - p2.x) * (p1.x - p2.x);
+	res += (p1.y - p2.y) * (p1.y - p2.y);
+	res += (p1.z - p2.z) * (p1.z - p2.z);
+	return (sqrt(res));
 }
 
 t_point	rotate(t_point point, char axis_flag, double degree)
@@ -79,7 +79,7 @@ void	translate_map(t_map *map, char axis_flag, double value)
 	}
 }
 
-t_point	zoom(t_point point, int scale)
+t_point	zoom(t_point point, double scale)
 {
 	point.x = point.x * scale;
 	point.y = point.y * scale;
@@ -87,7 +87,7 @@ t_point	zoom(t_point point, int scale)
 	return (point);
 }
 
-void	zoom_map(t_map *map, int scale)
+void	zoom_map(t_map *map, double scale)
 {
 	int	i;
 
@@ -97,4 +97,22 @@ void	zoom_map(t_map *map, int scale)
 		map->tab[i] = zoom(map->tab[i], scale);
 		i++;
 	}
+}
+
+t_point	projection(t_point point, t_map_renderer map_renderer)
+{
+	t_point	res;
+
+	res = point;
+	point = zoom(point, map_renderer.zoom_value);
+	point = translate(point, X_AXIS, map_renderer.x_axis_translation_value);
+	point = translate(point, Y_AXIS, map_renderer.y_axis_translation_value);
+	point = translate(point, Z_AXIS, map_renderer.z_axis_translation_value);
+	point = rotate(point, X_AXIS, map_renderer.x_axis_rotation_angle);
+	point = rotate(point, Y_AXIS, map_renderer.y_axis_rotation_angle);
+	point = rotate(point, Z_AXIS, map_renderer.z_axis_rotation_angle);
+	res.z = point.z + map_renderer.z_axis_translation_value;
+	res.x = (sqrt(2.) / 2) * (point.x - point.y) + WINDOW_WIDTH / 2;
+	res.y = (1. / sqrt(6.)) * (point.x + point.y) - sqrt(2. / 3.) * point.z + WINDOW_HEIGHT / 2;
+	return (res);
 }

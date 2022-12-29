@@ -11,56 +11,62 @@ int	hook_keydown(int keycode, t_hook_args *args)
 		return (app_close(args->app));
 	if (keycode == XK_Left)
 	{
-		rotate_map(args->map, X_AXIS, -5);
-		rotate_map(args->map, Y_AXIS, -5);
-		rotate_map(args->map, Z_AXIS, 5);
+		args->map->renderer.x_axis_rotation_angle -= 5;
+		args->map->renderer.y_axis_rotation_angle -= 5;
+		args->map->renderer.z_axis_rotation_angle += 5;
 	}
 	if (keycode == XK_Right)
 	{
-		rotate_map(args->map, X_AXIS, 5);
-		rotate_map(args->map, Y_AXIS, 5);
-		rotate_map(args->map, Z_AXIS, -5);
+		args->map->renderer.x_axis_rotation_angle += 5;
+		args->map->renderer.y_axis_rotation_angle += 5;
+		args->map->renderer.z_axis_rotation_angle -= 5;
 	}
 	if (keycode == XK_y)
 	{
-		rotate_map(args->map, X_AXIS, 5);
-		rotate_map(args->map, Y_AXIS, 5);
-		rotate_map(args->map, Z_AXIS, 5);
+		args->map->renderer.x_axis_rotation_angle += 5;
+		args->map->renderer.y_axis_rotation_angle += 5;
+		args->map->renderer.z_axis_rotation_angle += 5;
 	}
 	if (keycode == XK_i)
 	{
-		rotate_map(args->map, X_AXIS, -5);
-		rotate_map(args->map, Y_AXIS, -5);
-		rotate_map(args->map, Z_AXIS, -5);
+		args->map->renderer.x_axis_rotation_angle -= 5;
+		args->map->renderer.y_axis_rotation_angle -= 5;
+		args->map->renderer.z_axis_rotation_angle -= 5;
 	}
 	if (keycode == XK_Up)
 	{
-		rotate_map(args->map, X_AXIS, 5);
-		rotate_map(args->map, Y_AXIS, -5);
+		args->map->renderer.x_axis_rotation_angle += 5;
+		args->map->renderer.y_axis_rotation_angle -= 5;
 	}
 	if (keycode == XK_Down)
 	{
-		rotate_map(args->map, X_AXIS, -5);
-		rotate_map(args->map, Y_AXIS, 5);
+		args->map->renderer.x_axis_rotation_angle -= 5;
+		args->map->renderer.y_axis_rotation_angle += 5;
 	}
 	if (keycode == XK_a)
 	{
-		translate_map(args->map, X_AXIS, 50);
-		translate_map(args->map, Y_AXIS, -50);
+		args->map->renderer.x_axis_translation_value += 50;
+		args->map->renderer.y_axis_translation_value -= 50;
 	}
 	if (keycode == XK_d)
 	{
-		translate_map(args->map, X_AXIS, -50);
-		translate_map(args->map, Y_AXIS, 50);
+		args->map->renderer.x_axis_translation_value -= 50;
+		args->map->renderer.y_axis_translation_value += 50;
 	}
 	if (keycode == XK_w)
-		translate_map(args->map, Z_AXIS, -50);
+	{
+		args->map->renderer.x_axis_translation_value += 50;
+		args->map->renderer.y_axis_translation_value += 50;
+	}
 	if (keycode == XK_s)
-		translate_map(args->map, Z_AXIS, 50);
+	{
+		args->map->renderer.x_axis_translation_value -= 50;
+		args->map->renderer.y_axis_translation_value -= 50;
+	}
 	if (keycode == XK_r)
-		zoom_map(args->map, 2);
+		args->map->renderer.zoom_value *= 2;
 	if (keycode == XK_f)
-		zoom_map(args->map, 1/2);
+		args->map->renderer.zoom_value *= 1. / 2;
 	print_map(args->map, args->app);
 	return (0);
 }

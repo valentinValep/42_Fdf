@@ -57,17 +57,33 @@ static int	new_map(t_map *map, char	*line_str)
 		current_word++;
 	while (i < map->height * map->width)
 	{
-		new_point.x = i % map->width - map->width / 2.;
+		new_point.x = i % map->width;
 		new_point.y = i / map->width;
 		new_point.z = ft_atoi(current_word);
 		current_word = get_next_word(current_word);
 		if (!*current_word && i != map->height * map->width - 1)
 			return ((free(map->tab), -2));
-		new_point.color = 0x00008000;
 		map->tab[i] = new_point;
 		i++;
 	}
 	return (0);
+}
+
+static void	init_map_renderer(t_map *map)
+{
+	double	diag;
+
+	map->renderer.x_axis_rotation_angle = 0;
+	map->renderer.y_axis_rotation_angle = 0;
+	map->renderer.z_axis_rotation_angle = 0;
+	map->renderer.x_axis_translation_value = 0;
+	map->renderer.y_axis_translation_value = 0;
+	map->renderer.z_axis_translation_value = 0;
+	diag = sqrt(map->height * map->height + map->width * map->width);
+	if (WINDOW_WIDTH > WINDOW_HEIGHT)
+		map->renderer.zoom_value = (WINDOW_HEIGHT - 200) / diag;
+	else
+		map->renderer.zoom_value = (WINDOW_WIDTH - 200) / diag;
 }
 
 int	init_map(t_map *map, char *str)
@@ -93,47 +109,67 @@ int	init_map(t_map *map, char *str)
 		line_str = get_next_line(fd);
 	}
 	translate_map(map, X_AXIS | Y_AXIS, -map->height / 2.);
+	init_map_renderer(map);
 	return (0);
 }
 
-static void	print_line(t_app *app, t_point p1, t_point p2)
+static void	print_line(t_app *app, t_point p1, t_point p2, int color)
 {
 	int		i;
-	double	x;
-	double	y;
-	double	z;
-	int		color;
+	t_point	res;
+	double	dist;
 
 	i = -1;
-	x = p1.x;
-	y = p1.y;
-	z = p1.z;
-	color = p1.color;
-	while (++i < POINTS_PER_LINE)
+	res.x = p1.x;
+	res.y = p1.y;
+	res.z = p1.z;
+	dist = get_distance(p1, p2);
+	while (++i < dist)
 	{
-		x += (p2.x - p1.x) / POINTS_PER_LINE;
-		y += (p2.y - p1.y) / POINTS_PER_LINE;
-		z += (p2.z - p1.z) / POINTS_PER_LINE;
-		color = 0x00FFFFFF;
-		put_pixel(app, round(x), round(y), color);
+		res.x += (p2.x - p1.x) / dist;
+		res.y += (p2.y - p1.y) / dist;
+		put_pixel(app, round(res.x), round(res.y), color);
 	}
+}
+
+int	get_color(t_point point)
+{
+	if (point.z < 10)
+		return (0x00000080);
+	if (point.z < 20)
+		return (0x00008040);
+	else
+		return (0x00FFFFFF);
 }
 
 void	print_map(t_map *map, t_app *app)
 {
-	int	i;
+	int		i;
+	t_point	p1;
+	t_point	p2;
 
 	i = -1;
 	while (++i < map->width * map->height)
 	{
+		p1 = projection(map->tab[i], map->renderer);
 		if ((i + 1) % map->width)
-			print_line(
-				app, projection(map->tab[i]),
-				projection(map->tab[i + 1]));
-		if (i / map->width != map->height - 1)
-			print_line(
-				app, projection(map->tab[i]),
-				projection(map->tab[i + map->width]));
+		{
+			p2 = projection(map->tab[i + 1], map->renderer);
+			if ((p1.y >= 0 || p2.y >= 0)
+				&& (p1.y < WINDOW_HEIGHT || p2.y < WINDOW_HEIGHT)
+				&& (p1.x > 0 || p2.x > 0)
+				&& (p1.x < WINDOW_WIDTH || p2.x < WINDOW_WIDTH))
+				print_line(app, p1, p2, get_color(p1));
+		}
+		if (i / map->width != map->height -1)
+		{
+			p2 = projection(map->tab[i + map->width], map->renderer);
+			if ((p1.y >= 0 || p2.y >= 0)
+				&& (p1.y < WINDOW_HEIGHT || p2.y < WINDOW_HEIGHT)
+				&& (p1.x > 0 || p2.x > 0)
+				&& (p1.x < WINDOW_WIDTH || p2.x < WINDOW_WIDTH))
+				print_line(app, p1, p2, get_color(p1));
+		}
 	}
 	flush(app);
 }
