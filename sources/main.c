@@ -11,14 +11,10 @@ int	hook_keydown(int keycode, t_hook_args *args)
 		return (app_close(args->app));
 	if (keycode == XK_Left)
 	{
-		args->map->renderer.x_axis_rotation_angle -= 5;
-		args->map->renderer.y_axis_rotation_angle -= 5;
 		args->map->renderer.z_axis_rotation_angle += 5;
 	}
 	if (keycode == XK_Right)
 	{
-		args->map->renderer.x_axis_rotation_angle += 5;
-		args->map->renderer.y_axis_rotation_angle += 5;
 		args->map->renderer.z_axis_rotation_angle -= 5;
 	}
 	if (keycode == XK_y)
@@ -55,13 +51,11 @@ int	hook_keydown(int keycode, t_hook_args *args)
 	}
 	if (keycode == XK_w)
 	{
-		args->map->renderer.x_axis_translation_value += 50;
-		args->map->renderer.y_axis_translation_value += 50;
+		args->map->renderer.z_axis_translation_value -= 50;
 	}
 	if (keycode == XK_s)
 	{
-		args->map->renderer.x_axis_translation_value -= 50;
-		args->map->renderer.y_axis_translation_value -= 50;
+		args->map->renderer.z_axis_translation_value += 50;
 	}
 	if (keycode == XK_r)
 		args->map->renderer.zoom_value *= 2;
