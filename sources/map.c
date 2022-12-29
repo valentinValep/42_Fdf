@@ -60,6 +60,10 @@ static int	new_map(t_map *map, char	*line_str)
 		new_point.x = i % map->width;
 		new_point.y = i / map->width;
 		new_point.z = ft_atoi(current_word);
+		if (!i || map->min_z > new_point.z)
+			map->min_z = new_point.z;
+		if (!i || map->max_z < new_point.z)
+			map->max_z = new_point.z;
 		current_word = get_next_word(current_word);
 		if (!*current_word && i != map->height * map->width - 1)
 			return ((free(map->tab), -2));
@@ -132,16 +136,21 @@ static void	print_line(t_app *app, t_point p1, t_point p2, int color)
 	}
 }
 
-int	get_color(t_point point)
+int	get_color(t_point point, t_map *map)
 {
-	if (point.z < 10)
-		return (0x00000080);
-	if (point.z < 20)
+	double	diff;
+
+	diff = map->max_z - map->min_z;
+	if (point.z < diff / 6 + map->min_z)
+		return (0x00000080 + (char)(((point.z - map->min_z) / (diff / 6 - map->min_z)) * 128));
+	if (point.z < 3 * diff / 6 + map->min_z)
 		return (0x00008040);
+	if (point.z < 5 * diff / 6 + map->min_z)
+		return (0x00806000);
 	else
 		return (0x00FFFFFF);
 }
-
+#include <stdio.h>
 void	print_map(t_map *map, t_app *app)
 {
 	int		i;
@@ -159,7 +168,7 @@ void	print_map(t_map *map, t_app *app)
 				&& (p1.y < WINDOW_HEIGHT || p2.y < WINDOW_HEIGHT)
 				&& (p1.x > 0 || p2.x > 0)
 				&& (p1.x < WINDOW_WIDTH || p2.x < WINDOW_WIDTH))
-				print_line(app, p1, p2, get_color(p1));
+				print_line(app, p1, p2, get_color(map->tab[i], map));
 		}
 		if (i / map->width != map->height -1)
 		{
@@ -168,7 +177,7 @@ void	print_map(t_map *map, t_app *app)
 				&& (p1.y < WINDOW_HEIGHT || p2.y < WINDOW_HEIGHT)
 				&& (p1.x > 0 || p2.x > 0)
 				&& (p1.x < WINDOW_WIDTH || p2.x < WINDOW_WIDTH))
-				print_line(app, p1, p2, get_color(p1));
+				print_line(app, p1, p2, get_color(map->tab[i], map));
 		}
 	}
 	flush(app);

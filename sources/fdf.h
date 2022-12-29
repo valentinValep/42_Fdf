@@ -62,6 +62,8 @@ typedef struct s_map
 	int		malloc_size;
 	int		height;
 	int		width;
+	int		min_z;
+	int		max_z;
 }	t_map;
 
 int		init_map(t_map *map, char *str);
