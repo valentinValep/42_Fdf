@@ -57,9 +57,9 @@ static int	new_map(t_map *map, char	*line_str)
 		current_word++;
 	while (i < map->height * map->width)
 	{
-		new_point.x = i % map->width * ZOOM + START_X;
-		new_point.y = i / map->width * ZOOM + START_Y;
-		new_point.z = ft_atoi(current_word) * ZOOM;
+		new_point.x = i % map->width - map->width / 2.;
+		new_point.y = i / map->width;
+		new_point.z = ft_atoi(current_word);
 		current_word = get_next_word(current_word);
 		if (!*current_word && i != map->height * map->width - 1)
 			return ((free(map->tab), -2));
@@ -81,17 +81,18 @@ int	init_map(t_map *map, char *str)
 	line_str = get_next_line(fd);
 	if (!line_str)
 		return (-2);
-	map->height = 1;
+	map->height = 0;
 	map->malloc_size = 0;
 	map->tab = NULL;
 	while (line_str)
 	{
+		map->height += 1;
 		if (new_map(map, line_str))
 			return ((free(line_str), gnl_close(fd), -4));
 		free(line_str);
 		line_str = get_next_line(fd);
-		map->height += 1;
 	}
+	translate_map(map, X_AXIS | Y_AXIS, -map->height / 2.);
 	return (0);
 }
 

@@ -10,9 +10,29 @@ int	hook_keydown(int keycode, t_hook_args *args)
 	if (keycode == XK_Escape)
 		return (app_close(args->app));
 	if (keycode == XK_Left)
+	{
+		rotate_map(args->map, X_AXIS, -5);
+		rotate_map(args->map, Y_AXIS, -5);
 		rotate_map(args->map, Z_AXIS, 5);
+	}
 	if (keycode == XK_Right)
+	{
+		rotate_map(args->map, X_AXIS, 5);
+		rotate_map(args->map, Y_AXIS, 5);
 		rotate_map(args->map, Z_AXIS, -5);
+	}
+	if (keycode == XK_y)
+	{
+		rotate_map(args->map, X_AXIS, 5);
+		rotate_map(args->map, Y_AXIS, 5);
+		rotate_map(args->map, Z_AXIS, 5);
+	}
+	if (keycode == XK_i)
+	{
+		rotate_map(args->map, X_AXIS, -5);
+		rotate_map(args->map, Y_AXIS, -5);
+		rotate_map(args->map, Z_AXIS, -5);
+	}
 	if (keycode == XK_Up)
 	{
 		rotate_map(args->map, X_AXIS, 5);
@@ -38,9 +58,9 @@ int	hook_keydown(int keycode, t_hook_args *args)
 	if (keycode == XK_s)
 		translate_map(args->map, Z_AXIS, 50);
 	if (keycode == XK_r)
-		translate_map(args->map, X_AXIS | Y_AXIS | Z_AXIS, 1000);
+		zoom_map(args->map, 2);
 	if (keycode == XK_f)
-		translate_map(args->map, X_AXIS | Y_AXIS | Z_AXIS, -1000);
+		zoom_map(args->map, 1/2);
 	print_map(args->map, args->app);
 	return (0);
 }

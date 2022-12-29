@@ -37,10 +37,6 @@ int		app_close(t_app *app);
 
 # define ZOOM 50
 # define POINTS_PER_LINE ZOOM
-# define CAM_X 100
-# define CAM_Y 100
-# define START_X 100
-# define START_Y 100
 
 typedef struct s_point
 {
@@ -69,6 +65,7 @@ t_point	projection(t_point point);
 t_point	rotate(t_point point, char axis, double degree);
 void	rotate_map(t_map *map, char axis_flag, double degree);
 void	translate_map(t_map *map, char axis_flag, double value);
+void	zoom_map(t_map *map, int scale);
 
 typedef struct s_hook_args
 {

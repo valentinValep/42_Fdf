@@ -8,7 +8,7 @@ t_point	projection(t_point point)
 	res.color = point.color;
 	res.z = point.z;
 	res.x = (sqrt(2.) / 2) * (point.x - point.y) + WINDOW_WIDTH / 2;
-	res.y = (1. / sqrt(6.)) * (point.x + point.y) - sqrt(2. / 3.) * point.z;
+	res.y = (1. / sqrt(6.)) * (point.x + point.y) - sqrt(2. / 3.) * point.z + WINDOW_HEIGHT / 2;
 	return (res);
 }
 
@@ -75,6 +75,26 @@ void	translate_map(t_map *map, char axis_flag, double value)
 	while (i < map->height * map->width)
 	{
 		map->tab[i] = translate(map->tab[i], axis_flag, value);
+		i++;
+	}
+}
+
+t_point	zoom(t_point point, int scale)
+{
+	point.x = point.x * scale;
+	point.y = point.y * scale;
+	point.z = point.z * scale;
+	return (point);
+}
+
+void	zoom_map(t_map *map, int scale)
+{
+	int	i;
+
+	i = 0;
+	while (i < map->height * map->width)
+	{
+		map->tab[i] = zoom(map->tab[i], scale);
 		i++;
 	}
 }
