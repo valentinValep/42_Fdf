@@ -6,4 +6,4 @@
 - verif frees
 - valgrind
 - norm
-- put header in master branch
+- put every header in master branch (.c .h Makefile)
