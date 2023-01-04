@@ -1,5 +1,7 @@
 # TODOs
 - height scale factor
+- center according to the render
+- limit zoom
 - create geometric_point.c and geometric_map.c
 - Verif invalid file (which doesn't exist), empty map, incorrect map (different size etc..), starting with ' '
 - verif mallocs

@@ -42,6 +42,7 @@ typedef struct s_point
 	double	x;
 	double	y;
 	double	z;
+	int		color;
 }	t_point;
 
 typedef struct s_map_renderer

@@ -5,57 +5,72 @@
 #include <libft.h>
 // @TODO rm these include bellow
 #include <unistd.h>
+#include <stdio.h>
 int	hook_keydown(int keycode, t_hook_args *args)
 {
 	if (keycode == XK_Escape)
 		return (app_close(args->app));
 	if (keycode == XK_Left)
 	{
-		args->map->renderer.z_axis_rotation_angle += 5;
+		//args->map->renderer.z_axis_rotation_angle += 5;
+		rotate_map(args->map, Z_AXIS, 5);
 	}
 	if (keycode == XK_Right)
 	{
-		args->map->renderer.z_axis_rotation_angle -= 5;
+		//args->map->renderer.z_axis_rotation_angle -= 5;
+		rotate_map(args->map, Z_AXIS, -5);
 	}
 	if (keycode == XK_y)
 	{
-		args->map->renderer.x_axis_rotation_angle += 5;
-		args->map->renderer.y_axis_rotation_angle += 5;
-		args->map->renderer.z_axis_rotation_angle += 5;
+		//args->map->renderer.x_axis_rotation_angle += 5;
+		//args->map->renderer.y_axis_rotation_angle += 5;
+		//args->map->renderer.z_axis_rotation_angle += 5;
+		rotate_map(args->map, X_AXIS | Y_AXIS | Z_AXIS, 5);
 	}
 	if (keycode == XK_i)
 	{
-		args->map->renderer.x_axis_rotation_angle -= 5;
-		args->map->renderer.y_axis_rotation_angle -= 5;
-		args->map->renderer.z_axis_rotation_angle -= 5;
+		//args->map->renderer.x_axis_rotation_angle -= 5;
+		//args->map->renderer.y_axis_rotation_angle -= 5;
+		//args->map->renderer.z_axis_rotation_angle -= 5;
+		rotate_map(args->map, X_AXIS | Y_AXIS | Z_AXIS, -5);
 	}
 	if (keycode == XK_Up)
 	{
-		args->map->renderer.x_axis_rotation_angle += 5;
-		args->map->renderer.y_axis_rotation_angle -= 5;
+		//args->map->renderer.x_axis_rotation_angle += 5;
+		//args->map->renderer.y_axis_rotation_angle -= 5;
+		rotate_map(args->map, X_AXIS, 5);
+		rotate_map(args->map, Y_AXIS, -5);
 	}
 	if (keycode == XK_Down)
 	{
-		args->map->renderer.x_axis_rotation_angle -= 5;
-		args->map->renderer.y_axis_rotation_angle += 5;
+		//args->map->renderer.x_axis_rotation_angle -= 5;
+		//args->map->renderer.y_axis_rotation_angle += 5;
+		rotate_map(args->map, X_AXIS, -5);
+		rotate_map(args->map, Y_AXIS, 5);
 	}
 	if (keycode == XK_a)
 	{
-		args->map->renderer.x_axis_translation_value += 50;
-		args->map->renderer.y_axis_translation_value -= 50;
+		args->map->renderer.x_axis_translation_value += 50 / args->map->renderer.zoom_value;
+		args->map->renderer.y_axis_translation_value -= 50 / args->map->renderer.zoom_value;
+		//translate_map(args->map, X_AXIS, 50);
+		//translate_map(args->map, Y_AXIS, -50);
 	}
 	if (keycode == XK_d)
 	{
-		args->map->renderer.x_axis_translation_value -= 50;
-		args->map->renderer.y_axis_translation_value += 50;
+		args->map->renderer.x_axis_translation_value -= 50 / args->map->renderer.zoom_value;
+		args->map->renderer.y_axis_translation_value += 50 / args->map->renderer.zoom_value;
+		//translate_map(args->map, X_AXIS, -50);
+		//translate_map(args->map, Y_AXIS, 50);
 	}
 	if (keycode == XK_w)
 	{
-		args->map->renderer.z_axis_translation_value -= 50;
+		args->map->renderer.z_axis_translation_value -= 50 / args->map->renderer.zoom_value;
+		//translate_map(args->map, Z_AXIS, -50);
 	}
 	if (keycode == XK_s)
 	{
-		args->map->renderer.z_axis_translation_value += 50;
+		args->map->renderer.z_axis_translation_value += 50 / args->map->renderer.zoom_value;
+		//translate_map(args->map, Z_AXIS, 50);
 	}
 	if (keycode == XK_r)
 		args->map->renderer.zoom_value *= 2;

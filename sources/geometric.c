@@ -99,19 +99,19 @@ void	zoom_map(t_map *map, double scale)
 	}
 }
 
-t_point	projection(t_point point, t_map_renderer map_renderer)
+t_point	projection(t_point point, t_map_renderer m_rend)
 {
 	t_point	res;
 
 	res = point;
-	point = zoom(point, map_renderer.zoom_value);
-	point = translate(point, X_AXIS, map_renderer.x_axis_translation_value);
-	point = translate(point, Y_AXIS, map_renderer.y_axis_translation_value);
-	point = translate(point, Z_AXIS, map_renderer.z_axis_translation_value);
-	point = rotate(point, X_AXIS, map_renderer.x_axis_rotation_angle);
-	point = rotate(point, Y_AXIS, map_renderer.y_axis_rotation_angle);
-	point = rotate(point, Z_AXIS, map_renderer.z_axis_rotation_angle);
-	res.z = point.z + map_renderer.z_axis_translation_value;
+	point = rotate(point, X_AXIS, m_rend.x_axis_rotation_angle);
+	point = rotate(point, Y_AXIS, m_rend.y_axis_rotation_angle);
+	point = rotate(point, Z_AXIS, m_rend.z_axis_rotation_angle);
+	point = translate(point, X_AXIS, m_rend.x_axis_translation_value);
+	point = translate(point, Y_AXIS, m_rend.y_axis_translation_value);
+	point = translate(point, Z_AXIS, m_rend.z_axis_translation_value);
+	point = zoom(point, m_rend.zoom_value);
+	res.z = point.z + m_rend.z_axis_translation_value;
 	res.x = (sqrt(2.) / 2) * (point.x - point.y) + WINDOW_WIDTH / 2;
 	res.y = (1. / sqrt(6.)) * (point.x + point.y) - sqrt(2. / 3.) * point.z + WINDOW_HEIGHT / 2;
 	return (res);

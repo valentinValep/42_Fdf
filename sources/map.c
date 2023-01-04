@@ -90,6 +90,32 @@ static void	init_map_renderer(t_map *map)
 		map->renderer.zoom_value = (WINDOW_WIDTH - 200) / diag;
 }
 
+int	get_color(t_point point, t_map *map)
+{
+	double	diff;
+
+	diff = map->max_z - map->min_z;
+	if (point.z < diff / 6 + map->min_z)
+		return (0x00000080 + (char)(((point.z - map->min_z) / (diff / 6 - map->min_z)) * 128));
+	if (point.z < 3 * diff / 6 + map->min_z)
+		return (0x00008040);
+	if (point.z < 5 * diff / 6 + map->min_z)
+		return (0x00806000);
+	else
+		return (0x00FFFFFF);
+}
+
+void	set_map_color(t_map *map)
+{
+	int	i;
+
+	i = -1;
+	while (++i < map->height * map->width)
+	{
+		map->tab[i].color = get_color(map->tab[i], map);
+	}
+}
+
 int	init_map(t_map *map, char *str)
 {
 	int		fd;
@@ -112,6 +138,7 @@ int	init_map(t_map *map, char *str)
 		free(line_str);
 		line_str = get_next_line(fd);
 	}
+	set_map_color(map);
 	translate_map(map, X_AXIS | Y_AXIS, -map->height / 2.);
 	init_map_renderer(map);
 	return (0);
@@ -136,21 +163,6 @@ static void	print_line(t_app *app, t_point p1, t_point p2, int color)
 	}
 }
 
-int	get_color(t_point point, t_map *map)
-{
-	double	diff;
-
-	diff = map->max_z - map->min_z;
-	if (point.z < diff / 6 + map->min_z)
-		return (0x00000080 + (char)(((point.z - map->min_z) / (diff / 6 - map->min_z)) * 128));
-	if (point.z < 3 * diff / 6 + map->min_z)
-		return (0x00008040);
-	if (point.z < 5 * diff / 6 + map->min_z)
-		return (0x00806000);
-	else
-		return (0x00FFFFFF);
-}
-#include <stdio.h>
 void	print_map(t_map *map, t_app *app)
 {
 	int		i;
@@ -168,7 +180,7 @@ void	print_map(t_map *map, t_app *app)
 				&& (p1.y < WINDOW_HEIGHT || p2.y < WINDOW_HEIGHT)
 				&& (p1.x > 0 || p2.x > 0)
 				&& (p1.x < WINDOW_WIDTH || p2.x < WINDOW_WIDTH))
-				print_line(app, p1, p2, get_color(map->tab[i], map));
+				print_line(app, p1, p2, p2.color);
 		}
 		if (i / map->width != map->height -1)
 		{
@@ -177,7 +189,7 @@ void	print_map(t_map *map, t_app *app)
 				&& (p1.y < WINDOW_HEIGHT || p2.y < WINDOW_HEIGHT)
 				&& (p1.x > 0 || p2.x > 0)
 				&& (p1.x < WINDOW_WIDTH || p2.x < WINDOW_WIDTH))
-				print_line(app, p1, p2, get_color(map->tab[i], map));
+				print_line(app, p1, p2, p2.color);
 		}
 	}
 	flush(app);
