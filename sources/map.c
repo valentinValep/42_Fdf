@@ -88,6 +88,7 @@ static void	init_map_renderer(t_map *map)
 		map->renderer.zoom_value = (WINDOW_HEIGHT - 200) / diag;
 	else
 		map->renderer.zoom_value = (WINDOW_WIDTH - 200) / diag;
+	map->renderer.scale_factor = 1;
 }
 
 int	get_color(t_point point, t_map *map)
@@ -153,7 +154,6 @@ static void	print_line(t_app *app, t_point p1, t_point p2, int color)
 	i = -1;
 	res.x = p1.x;
 	res.y = p1.y;
-	res.z = p1.z;
 	dist = get_distance(p1, p2);
 	while (++i < dist)
 	{

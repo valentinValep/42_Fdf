@@ -1,7 +1,14 @@
 # TODOs
-- height scale factor
-- center according to the render
+- origin according to the map
 - limit zoom
+
+- perf (print_map seems to be long)
+- put lines with a better solution
+
+- translate / rotation / zoom on mouse
+- Manage superposition
+- manage every minilibX fail return
+- do @TODOs
 - create geometric_point.c and geometric_map.c
 - Verif invalid file (which doesn't exist), empty map, incorrect map (different size etc..), starting with ' '
 - verif mallocs

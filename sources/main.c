@@ -76,6 +76,10 @@ int	hook_keydown(int keycode, t_hook_args *args)
 		args->map->renderer.zoom_value *= 2;
 	if (keycode == XK_f)
 		args->map->renderer.zoom_value *= 1. / 2;
+	if (keycode == XK_t)
+		args->map->renderer.scale_factor += 0.1;
+	if (keycode == XK_g)
+		args->map->renderer.scale_factor -= 0.1;
 	print_map(args->map, args->app);
 	return (0);
 }

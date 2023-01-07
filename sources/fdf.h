@@ -54,17 +54,18 @@ typedef struct s_map_renderer
 	double	y_axis_translation_value;
 	double	z_axis_translation_value;
 	double	zoom_value;
+	double	scale_factor;
 }	t_map_renderer;
 
 typedef struct s_map
 {
-	t_point	*tab;
-	t_map_renderer renderer;
-	int		malloc_size;
-	int		height;
-	int		width;
-	int		min_z;
-	int		max_z;
+	t_point			*tab;
+	t_map_renderer	renderer;
+	int				malloc_size;
+	int				height;
+	int				width;
+	int				min_z;
+	int				max_z;
 }	t_map;
 
 int		init_map(t_map *map, char *str);

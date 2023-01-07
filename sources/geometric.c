@@ -111,7 +111,8 @@ t_point	projection(t_point point, t_map_renderer m_rend)
 	point = translate(point, Y_AXIS, m_rend.y_axis_translation_value);
 	point = translate(point, Z_AXIS, m_rend.z_axis_translation_value);
 	point = zoom(point, m_rend.zoom_value);
-	res.z = point.z + m_rend.z_axis_translation_value;
+	point.z *= m_rend.scale_factor;
+	res.z = point.z;
 	res.x = (sqrt(2.) / 2) * (point.x - point.y) + WINDOW_WIDTH / 2;
 	res.y = (1. / sqrt(6.)) * (point.x + point.y) - sqrt(2. / 3.) * point.z + WINDOW_HEIGHT / 2;
 	return (res);
