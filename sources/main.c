@@ -73,7 +73,8 @@ int	hook_keydown(int keycode, t_hook_args *args)
 		//translate_map(args->map, Z_AXIS, 50);
 	}
 	if (keycode == XK_r)
-		args->map->renderer.zoom_value *= 2;
+		if (args->map->renderer.zoom_value < 5000)
+			args->map->renderer.zoom_value *= 2;
 	if (keycode == XK_f)
 		args->map->renderer.zoom_value *= 1. / 2;
 	if (keycode == XK_t)

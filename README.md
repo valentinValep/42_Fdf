@@ -1,6 +1,5 @@
 # TODOs
 - origin according to the map
-- limit zoom
 
 - perf (print_map seems to be long)
 - put lines with a better solution
