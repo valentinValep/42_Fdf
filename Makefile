@@ -4,13 +4,14 @@ CC := cc
 
 FLAGS := -Wall -Werror -Wextra
 
-INCLUDES := -Isources -I/usr/include -Iminilibx-linux -Ilibft
+SOURCES_DIR := sources/
+BINARIES_DIR := build/
+INCLUDES_DIR := includes/
+LIBRARIES_DIR := lib/
 
-LIBRARIES := -Lminilibx-linux -lmlx -L/usr/lib -lXext -lX11 -lm -lz -Llibft -lft
+INCLUDES := -I$(INCLUDES_DIR) -I/usr/include -I$(LIBRARIES_DIR)minilibx-linux -I$(LIBRARIES_DIR)libft
 
-SOURCES_DIR := sources
-
-BINARIES_DIR := binaries
+LIBRARIES := -L$(LIBRARIES_DIR)minilibx-linux -lmlx -L/usr/lib -lXext -lX11 -lm -lz -L$(LIBRARIES_DIR)libft -lft
 
 SRC := main.c \
 	app.c \
@@ -19,31 +20,32 @@ SRC := main.c \
 
 OBJ := $(SRC:.c=.o)
 
-SRC := $(addprefix $(SOURCES_DIR)/,$(SRC))
-OBJ := $(addprefix $(BINARIES_DIR)/,$(OBJ))
+SRC := $(addprefix $(SOURCES_DIR),$(SRC))
+OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 
 RM := rm -f
 
 $(NAME) : $(OBJ)
-	make -C libft
-	make -C minilibx-linux
+	make -C $(LIBRARIES_DIR)libft
+	make -C $(LIBRARIES_DIR)minilibx-linux
 	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
 
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
 # @TODO rm -g3
-$(BINARIES_DIR)/%.o : $(SOURCES_DIR)/%.c $(SOURCES_DIR)/fdf.h | $(BINARIES_DIR)
+# @TODO use .d dependencies instead of "$(INCLUDES_DIR)fdf.h"
+$(BINARIES_DIR)%.o : $(SOURCES_DIR)%.c $(INCLUDES_DIR)fdf.h | $(BINARIES_DIR)
 	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@ -g3
 
 all : $(NAME)
 
 clean :
-	make -C libft clean
-	make -C minilibx-linux clean
+	make -C $(LIBRARIES_DIR)libft clean
+	make -C $(LIBRARIES_DIR)minilibx-linux clean
 	$(RM) $(OBJ)
 
 fclean : clean
-	make -C libft fclean
+	make -C $(LIBRARIES_DIR)libft fclean
 	$(RM) $(NAME)
 
 re : fclean all
