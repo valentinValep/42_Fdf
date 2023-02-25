@@ -1,5 +1,5 @@
-#ifndef NEW_FDF_H
-# define NEW_FDF_H
+#ifndef FDF_H
+# define FDF_H
 
 # include "mlx.h"
 # include "render.h"
@@ -16,8 +16,10 @@ typedef struct s_context
 	t_queue		queue;
 }	t_context;
 
-int	keydown_hook(int keycode, t_context *context);
-int	destroy_hook(t_renderer *renderer);
-int	loop_hook(t_context *context);
+int		keydown_hook(int keycode, t_context *context);
+int		destroy_hook(t_renderer *renderer);
+int		loop_hook(t_context *context);
+
+void	key_hook_tick(t_context *context, int keycode);
 
 #endif
