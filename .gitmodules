@@ -4,3 +4,6 @@
 [submodule "lib/minilibx-linux"]
 	path = lib/minilibx-linux
 	url = git@github.com:42Paris/minilibx-linux.git
+[submodule "lib/renderer"]
+	path = lib/renderer
+	url = git@github.com:valentinValep/42_FdF_renderer.git
