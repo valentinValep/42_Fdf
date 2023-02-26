@@ -4,6 +4,7 @@
 # include "mlx.h"
 # include "render.h"
 # include "queue.h"
+# include "map.h"
 
 # define XK_MISCELLANY
 # define XK_LATIN1
@@ -14,6 +15,7 @@ typedef struct s_context
 {
 	t_renderer	renderer;
 	t_queue		queue;
+	t_map		map;
 }	t_context;
 
 int		keydown_hook(int keycode, t_context *context);

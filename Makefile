@@ -17,6 +17,8 @@ SRC := main.c \
 	queue.c \
 	inputs.c \
 	tick.c \
+	map.c \
+	error.c \
 
 OBJ := $(SRC:.c=.o)
 

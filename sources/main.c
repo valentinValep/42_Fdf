@@ -3,20 +3,27 @@
 #include <X11/X.h>
 #include <stdlib.h>
 
-void	init_context(t_context	*context)
+void	init_context(t_context	*context, char **argv)
 {
+	init_queue(&context->queue);
+	if (parse_map(&context->map, argv[1]))
+	{
+		destroy_queue(&context->queue);
+		exit(1);
+	}
 	if (init_renderer(&context->renderer))
 	{
 		destroy_queue(&context->queue);
+		destroy_map(&context->map);
 		write(STDERR_FILENO, "Renderer initialisation failed\n", 31);
-		exit(1);
+		exit(2);
 	}
-	init_queue(&context->queue);
 }
 
 void	destroy_context(t_context	*context)
 {
 	destroy_queue(&context->queue);
+	destroy_map(&context->map);
 	if (destroy_renderer(&context->renderer))
 	{
 		write(STDERR_FILENO, "Renderer destruction failed\n", 28);
@@ -28,11 +35,9 @@ int	main(int argc, char **argv)
 {
 	t_context	context;
 
-	//if (argc != 2)
-	//	return (1);
-	init_context(&context);
-	(void) argc;
-	(void) argv;
+	if (argc != 2)
+		return (1);
+	init_context(&context, argv);
 
 	put_origins(&context.renderer);
 	draw_cube(&context.renderer, (t_point){20., -20., -20., 0x00FFFF00}, 50.);
