@@ -55,6 +55,7 @@ static int	parse_line(t_map *map, char *line_str)
 		current_word++;
 	while (i < map->height * map->width)
 	{
+		new_point.color = -1;
 		new_point.x = i % map->width;
 		new_point.y = i / map->width;
 		new_point.z = ft_atoi(current_word);

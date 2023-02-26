@@ -10,6 +10,8 @@
 # define XK_LATIN1
 # define WINDOW_WIDTH 1920 // @TODO make renderer use different window size
 # define WINDOW_HEIGHT 1080
+# define BASE_ZOOM 40.
+# define ZOOM_MODIFIER 1.1
 
 typedef struct s_context
 {

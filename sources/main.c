@@ -18,7 +18,7 @@ void	init_context(t_context	*context, char **argv)
 		write(STDERR_FILENO, "Renderer initialisation failed\n", 31);
 		exit(2);
 	}
-	context->zoom = 1.;
+	context->zoom = BASE_ZOOM;
 }
 
 void	destroy_context(t_context	*context)
