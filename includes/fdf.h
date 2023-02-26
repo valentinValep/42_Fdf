@@ -16,6 +16,7 @@ typedef struct s_context
 	t_renderer	renderer;
 	t_queue		queue;
 	t_map		map;
+	double		zoom;
 }	t_context;
 
 int		keydown_hook(int keycode, t_context *context);

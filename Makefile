@@ -18,6 +18,7 @@ SRC := main.c \
 	inputs.c \
 	tick.c \
 	map.c \
+	map_parsing.c \
 	error.c \
 
 OBJ := $(SRC:.c=.o)

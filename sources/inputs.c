@@ -28,4 +28,16 @@ void	key_hook_tick(t_context *context, int keycode)
 		draw_cube(&context->renderer, (t_point){20., -20., -20., 0x00FFFF00}, 50.);
 	else if (keycode == XK_4)
 		draw_cube(&context->renderer, (t_point){20., 10., 10., 0x00FFFFFF}, 75.);
+	else if (keycode == XK_minus || keycode == XK_KP_Subtract)
+	{
+		context->zoom /= 1.1;
+		clear_renderer(&context->renderer);
+		draw_map(context);
+	}
+	else if (keycode == XK_equal || keycode == XK_KP_Add)
+	{
+		context->zoom *= 1.1;
+		clear_renderer(&context->renderer);
+		draw_map(context);
+	}
 }

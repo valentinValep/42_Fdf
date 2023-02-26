@@ -18,6 +18,7 @@ void	init_context(t_context	*context, char **argv)
 		write(STDERR_FILENO, "Renderer initialisation failed\n", 31);
 		exit(2);
 	}
+	context->zoom = 1.;
 }
 
 void	destroy_context(t_context	*context)
@@ -39,8 +40,7 @@ int	main(int argc, char **argv)
 		return (1);
 	init_context(&context, argv);
 
-	put_origins(&context.renderer);
-	draw_cube(&context.renderer, (t_point){20., -20., -20., 0x00FFFF00}, 50.);
+	draw_map(&context);
 
 	mlx_hook(context.renderer.window, KeyPress, KeyPressMask,
 		keydown_hook, &context);

@@ -14,7 +14,10 @@ typedef struct s_map
 	int				max_z;
 }	t_map;
 
+typedef struct s_context	t_context;
+
 int		parse_map(t_map *map, char *str);
 void	destroy_map(t_map *map);
+void	draw_map(t_context *context);
 
 #endif
