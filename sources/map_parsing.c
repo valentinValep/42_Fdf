@@ -76,6 +76,7 @@ static void	init_map(t_map *map, char *first_line)
 	map->malloc_size = 0;
 	map->points_tab = NULL;
 	map->width = count_word(first_line, ' ');
+	map->is_update = 0;
 }
 
 int	parse_map(t_map *map, char *filename)

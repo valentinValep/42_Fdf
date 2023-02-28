@@ -32,12 +32,12 @@ void	key_hook_tick(t_context *context, int keycode)
 	{
 		context->zoom /= ZOOM_MODIFIER;
 		clear_renderer(&context->renderer);
-		draw_map(context);
+		context->map.is_update = 0;
 	}
 	else if (keycode == XK_equal || keycode == XK_KP_Add)
 	{
 		context->zoom *= ZOOM_MODIFIER;
 		clear_renderer(&context->renderer);
-		draw_map(context);
+		context->map.is_update = 0;
 	}
 }

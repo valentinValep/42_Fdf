@@ -40,8 +40,6 @@ int	main(int argc, char **argv)
 		return (1);
 	init_context(&context, argv);
 
-	draw_map(&context);
-
 	mlx_hook(context.renderer.window, KeyPress, KeyPressMask,
 		keydown_hook, &context);
 	mlx_hook(context.renderer.window, DestroyNotify, NoEventMask,

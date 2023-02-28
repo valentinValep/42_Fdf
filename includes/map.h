@@ -12,6 +12,7 @@ typedef struct s_map
 	unsigned int	width;
 	int				min_z;
 	int				max_z;
+	int				is_update;
 }	t_map;
 
 typedef struct s_context	t_context;

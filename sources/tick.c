@@ -13,6 +13,11 @@ int	loop_hook(t_context *context)
 		key_hook_tick(context, *keycode);
 		keycode = queue_next(&context->queue);
 	}
+	if (!context->map.is_update)
+	{
+		draw_map(context);
+		context->map.is_update = 1;
+	}
 	render_tick(&context->renderer);
 	return (0);
 }
