@@ -114,6 +114,6 @@ int	parse_map(t_map *map, char *filename)
 		destroy_map(map);
 		return (close_file_error());
 	}
-	//set_map_color(map);
+	set_map_color(map);
 	return (0);
 }
