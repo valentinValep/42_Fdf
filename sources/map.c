@@ -6,16 +6,6 @@ void	destroy_map(t_map *map)
 	free(map->points_tab);
 }
 
-static t_point	transform(t_context *context, t_point *point)
-{
-	return ((t_point){
-		point->x * context->zoom,
-		point->y * context->zoom,
-		point->z * context->zoom,
-		point->color
-	});
-}
-
 void	draw_map(t_context *context)
 {
 	unsigned int	i;

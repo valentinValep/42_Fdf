@@ -2,3 +2,5 @@
 build
 old/
 fdf
+gmon.out
+perf*

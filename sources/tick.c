@@ -16,6 +16,7 @@ int	loop_hook(t_context *context)
 	if (!context->map.is_update)
 	{
 		draw_map(context);
+		put_origins(&context->renderer);
 		context->map.is_update = 1;
 	}
 	render_tick(&context->renderer);

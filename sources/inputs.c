@@ -1,6 +1,7 @@
 #include "fdf.h"
 #include <X11/keysymdef.h>
 #include <unistd.h>
+#include <math.h>
 
 #include <stdio.h> // @TODO rm
 int	keydown_hook(int keycode, t_context *context)
@@ -30,13 +31,51 @@ void	key_hook_tick(t_context *context, int keycode)
 		draw_cube(&context->renderer, (t_point){20., 10., 10., 0x00FFFFFF}, 75.);
 	else if (keycode == XK_minus || keycode == XK_KP_Subtract)
 	{
-		context->zoom /= ZOOM_MODIFIER;
+		context->camera.zoom /= ZOOM_MODIFIER;
 		clear_renderer(&context->renderer);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_equal || keycode == XK_KP_Add)
 	{
-		context->zoom *= ZOOM_MODIFIER;
+		context->camera.zoom *= ZOOM_MODIFIER;
+		clear_renderer(&context->renderer);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_w)
+	{
+		context->camera.translation_vec.z -= TRANSLATION_MODIFIER;
+		clear_renderer(&context->renderer);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_s)
+	{
+		context->camera.translation_vec.z += TRANSLATION_MODIFIER;
+		clear_renderer(&context->renderer);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_a)
+	{
+		context->camera.translation_vec.x += TRANSLATION_MODIFIER;
+		context->camera.translation_vec.y -= TRANSLATION_MODIFIER;
+		clear_renderer(&context->renderer);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_d)
+	{
+		context->camera.translation_vec.x -= TRANSLATION_MODIFIER;
+		context->camera.translation_vec.y += TRANSLATION_MODIFIER;
+		clear_renderer(&context->renderer);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_Right)
+	{
+		rotate_map_side(&context->map, 1 / 6. * M_PI);
+		clear_renderer(&context->renderer);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_Left)
+	{
+		rotate_map_side(&context->map, -1 / 6. * M_PI);
 		clear_renderer(&context->renderer);
 		context->map.is_update = 0;
 	}
