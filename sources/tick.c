@@ -3,15 +3,13 @@
 #include <stdio.h> // @TODO rm
 int	loop_hook(t_context *context)
 {
-	const int	*keycode;
+	int	keycode;
 
-	keycode = queue_next(&context->queue);
-	while (keycode)
+	while (queue_next(&context->queue, &keycode))
 	{
-		if (*keycode == XK_Escape)
+		if (keycode == XK_Escape)
 			return (mlx_loop_end(context->renderer.mlx));
-		key_hook_tick(context, *keycode);
-		keycode = queue_next(&context->queue);
+		key_hook_tick(context, keycode);
 	}
 	if (!context->map.is_update)
 	{

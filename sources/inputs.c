@@ -6,7 +6,7 @@
 #include <stdio.h> // @TODO rm
 int	keydown_hook(int keycode, t_context *context)
 {
-	if (add_queue(&context->queue, keycode))
+	if (!add_queue(&context->queue, keycode))
 	{
 		write(STDERR_FILENO, "Queue add failed\n", 17);
 		return (mlx_loop_end(context->renderer.mlx));
@@ -46,7 +46,7 @@ void	key_hook_tick(t_context *context, int keycode)
 	}
 	else if (keycode == XK_s)
 	{
-		translate_map(&context->map, 1, 1, 0);
+		translate_map(&context->map, -1, -1, 0);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_a)

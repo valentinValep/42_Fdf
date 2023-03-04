@@ -14,7 +14,7 @@ int	add_queue(t_queue *queue, int value)
 
 	new = malloc(sizeof(t_element));
 	if (!new)
-		return (1);
+		return (0);
 	new->content = value;
 	new->next = NULL;
 	if (!queue->first)
@@ -22,26 +22,27 @@ int	add_queue(t_queue *queue, int value)
 	else
 		queue->last->next = new;
 	queue->last = new;
-	return (0);
+	return (1);
 }
 
-const int	*queue_next(t_queue *queue)
+int	queue_next(t_queue *queue, int *res)
 {
 	t_element	*second;
 
 	if (!queue->first)
-		return (NULL);
+		return (0);
 	second = queue->first->next;
-	queue->current = queue->first->content;
+	if (res)
+		*res = queue->first->content;
 	free(queue->first);
 	queue->first = second;
 	if (!queue->first)
 		queue->last = NULL;
-	return (&queue->current);
+	return (1);
 }
 
 void	destroy_queue(t_queue *queue)
 {
-	while (queue_next(queue))
+	while (queue_next(queue, NULL))
 		;
 }

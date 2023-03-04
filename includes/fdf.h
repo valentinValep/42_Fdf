@@ -12,7 +12,7 @@
 # define WINDOW_HEIGHT 1080
 # define BASE_ZOOM 40.
 # define ZOOM_MODIFIER 1.1
-# define TRANSLATION_MODIFIER 2
+# define TRANSLATION_MODIFIER .2
 # define ROTATION_MODIFIER 24.
 
 typedef struct s_vector
