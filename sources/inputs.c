@@ -41,12 +41,12 @@ void	key_hook_tick(t_context *context, int keycode)
 	}
 	else if (keycode == XK_w)
 	{
-		translate_map(&context->map, 0, 0, -1);
+		translate_map(&context->map, 1, 1, 0);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_s)
 	{
-		translate_map(&context->map, 0, 0, 1);
+		translate_map(&context->map, 1, 1, 0);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_a)
@@ -61,12 +61,22 @@ void	key_hook_tick(t_context *context, int keycode)
 	}
 	else if (keycode == XK_Right)
 	{
-		rotate_map_side(&context->map, 1 / 6. * M_PI);
+		rotate_map(&context->map, 0, 0, 1);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_Left)
 	{
-		rotate_map_side(&context->map, -1 / 6. * M_PI);
+		rotate_map(&context->map, 0, 0, -1);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_Up)
+	{
+		rotate_map(&context->map, 1, -1, 0);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_Down)
+	{
+		rotate_map(&context->map, -1, 1, 0);
 		context->map.is_update = 0;
 	}
 }
