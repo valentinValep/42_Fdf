@@ -12,7 +12,7 @@
 # define WINDOW_HEIGHT 1080
 # define BASE_ZOOM 40.
 # define ZOOM_MODIFIER 1.1
-# define TRANSLATION_MODIFIER 10
+# define TRANSLATION_MODIFIER 0.2
 
 typedef struct s_vector
 {
@@ -42,6 +42,7 @@ int		loop_hook(t_context *context);
 void	key_hook_tick(t_context *context, int keycode);
 
 t_point	transform(t_context *context, t_point *point);
+void	translate_map(t_map	*map, int x_axis, int y_axis, int z_axis);
 void	rotate_map_side(t_map	*map, double radiant);
 
 #endif

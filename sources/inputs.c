@@ -32,51 +32,41 @@ void	key_hook_tick(t_context *context, int keycode)
 	else if (keycode == XK_minus || keycode == XK_KP_Subtract)
 	{
 		context->camera.zoom /= ZOOM_MODIFIER;
-		clear_renderer(&context->renderer);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_equal || keycode == XK_KP_Add)
 	{
 		context->camera.zoom *= ZOOM_MODIFIER;
-		clear_renderer(&context->renderer);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_w)
 	{
-		context->camera.translation_vec.z -= TRANSLATION_MODIFIER;
-		clear_renderer(&context->renderer);
+		translate_map(&context->map, 0, 0, -1);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_s)
 	{
-		context->camera.translation_vec.z += TRANSLATION_MODIFIER;
-		clear_renderer(&context->renderer);
+		translate_map(&context->map, 0, 0, 1);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_a)
 	{
-		context->camera.translation_vec.x += TRANSLATION_MODIFIER;
-		context->camera.translation_vec.y -= TRANSLATION_MODIFIER;
-		clear_renderer(&context->renderer);
+		translate_map(&context->map, 1, -1, 0);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_d)
 	{
-		context->camera.translation_vec.x -= TRANSLATION_MODIFIER;
-		context->camera.translation_vec.y += TRANSLATION_MODIFIER;
-		clear_renderer(&context->renderer);
+		translate_map(&context->map, -1, 1, 0);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_Right)
 	{
 		rotate_map_side(&context->map, 1 / 6. * M_PI);
-		clear_renderer(&context->renderer);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_Left)
 	{
 		rotate_map_side(&context->map, -1 / 6. * M_PI);
-		clear_renderer(&context->renderer);
 		context->map.is_update = 0;
 	}
 }

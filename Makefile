@@ -2,6 +2,7 @@ NAME := fdf
 
 CC := cc
 
+# @TODO rm -g3 and -pg
 FLAGS := -Wall -Werror -Wextra
 
 SOURCES_DIR := sources/
@@ -19,6 +20,7 @@ SRC := main.c \
 	tick.c \
 	map.c \
 	map_parsing.c \
+	map_transformation.c \
 	error.c \
 
 OBJ := $(SRC:.c=.o)
@@ -36,10 +38,9 @@ $(NAME) : $(OBJ)
 
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
-# @TODO rm -g3
 # @TODO use .d dependencies
 $(BINARIES_DIR)%.o : $(SOURCES_DIR)%.c | $(BINARIES_DIR)
-	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@ -g3
+	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
 all : $(NAME)
 
