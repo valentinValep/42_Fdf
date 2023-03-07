@@ -21,15 +21,7 @@ int	destroy_hook(t_renderer *renderer)
 
 void	key_hook_tick(t_context *context, int keycode)
 {
-	if (keycode == XK_1)
-		clear_renderer(&context->renderer);
-	else if (keycode == XK_2)
-		put_origins(&context->renderer);
-	else if (keycode == XK_3)
-		draw_cube(&context->renderer, (t_point){20., -20., -20., 0x00FFFF00}, 50.);
-	else if (keycode == XK_4)
-		draw_cube(&context->renderer, (t_point){20., 10., 10., 0x00FFFFFF}, 75.);
-	else if (keycode == XK_minus || keycode == XK_KP_Subtract)
+	if (keycode == XK_minus || keycode == XK_KP_Subtract)
 	{
 		context->camera.zoom /= ZOOM_MODIFIER;
 		context->map.is_update = 0;
@@ -77,6 +69,11 @@ void	key_hook_tick(t_context *context, int keycode)
 	else if (keycode == XK_Down)
 	{
 		rotate_map(&context->map, -1, 1, 0);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_c)
+	{
+		swap_projection(&context->renderer);
 		context->map.is_update = 0;
 	}
 }
