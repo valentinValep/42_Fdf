@@ -21,7 +21,7 @@ static void	upscale_map(t_map *map, size_t size)
 		if (map->points_tab)
 			free(map->points_tab);
 		map->points_tab = NULL;
-		malloc_error();
+		basic_error("A malloc failed\n", 1);
 		return ;
 	}
 	i = -1;
@@ -92,7 +92,7 @@ int	parse_map(t_map *map, char *filename)
 	{
 		if (close(fd))
 			close_file_error();
-		return (empty_map_error());
+		return (basic_error("Empty file or malloc fail\n", 3));
 	}
 	init_map(map, line_str);
 	while (line_str)
@@ -104,7 +104,7 @@ int	parse_map(t_map *map, char *filename)
 				close_file_error();
 			free(line_str);
 			gnl_close(fd);
-			return (parsing_error());
+			return (basic_error("Error while parsing file\n", 5));
 		}
 		free(line_str);
 		line_str = get_next_line(fd);

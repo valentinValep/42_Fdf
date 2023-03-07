@@ -2,10 +2,10 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int	malloc_error(void)
+int	basic_error(char *str, int return_number)
 {
-	write(STDERR_FILENO, "A malloc failed\n", 16);
-	return (1);
+	write(STDERR_FILENO, str, ft_strlen(str));
+	return (return_number);
 }
 
 int	open_error(char *filename)
@@ -16,20 +16,8 @@ int	open_error(char *filename)
 	return (2);
 }
 
-int	empty_map_error(void)
-{
-	write(STDERR_FILENO, "Empty file or malloc fail\n", 26);
-	return (3);
-}
-
 int	close_file_error(void)
 {
 	perror("Close file error : ");
 	return (4);
-}
-
-int	parsing_error(void)
-{
-	write(STDERR_FILENO, "Error while parsing file\n", 25);
-	return (5);
 }

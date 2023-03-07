@@ -1,4 +1,5 @@
 #include "fdf.h"
+#include "error.h"
 #include <unistd.h>
 #include <X11/X.h>
 #include <stdlib.h>
@@ -16,8 +17,7 @@ void	init_context(t_context	*context, char **argv)
 	{
 		destroy_queue(&context->queue);
 		destroy_map(&context->map);
-		write(STDERR_FILENO, "Renderer initialisation failed\n", 31);
-		exit(2);
+		exit(basic_error("Renderer initialisation failed\n", 2));
 	}
 	context->camera = (t_camera){WINDOW_HEIGHT
 		/ sqrt(context->map.height * context->map.height
@@ -29,10 +29,7 @@ void	destroy_context(t_context	*context)
 	destroy_queue(&context->queue);
 	destroy_map(&context->map);
 	if (destroy_renderer(&context->renderer))
-	{
-		write(STDERR_FILENO, "Renderer destruction failed\n", 28);
-		exit(1);
-	}
+		exit(basic_error("Renderer destruction failed\n", 1));
 }
 
 int	main(int argc, char **argv)
