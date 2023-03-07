@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <X11/X.h>
 #include <stdlib.h>
+#include <math.h>
 
 void	init_context(t_context	*context, char **argv)
 {
@@ -18,7 +19,9 @@ void	init_context(t_context	*context, char **argv)
 		write(STDERR_FILENO, "Renderer initialisation failed\n", 31);
 		exit(2);
 	}
-	context->camera = (t_camera){BASE_ZOOM, (t_vector){0, 0, 0}};
+	context->camera = (t_camera){WINDOW_HEIGHT
+		/ sqrt(context->map.height * context->map.height
+			+ context->map.width * context->map.width), (t_vector){0, 0, 0}};
 }
 
 void	destroy_context(t_context	*context)

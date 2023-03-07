@@ -3,7 +3,7 @@ NAME := fdf
 CC := cc
 
 # @TODO rm -g3 and -pg
-FLAGS := -Wall -Werror -Wextra
+FLAGS := -Wall -Werror -Wextra -g3
 
 SOURCES_DIR := sources/
 BINARIES_DIR := build/

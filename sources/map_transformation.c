@@ -18,9 +18,9 @@ void	translate_map(t_map	*map, int x_axis, int y_axis, int z_axis)
 	i = 0;
 	while (i < map->height * map->width)
 	{
-		map->points_tab[i].x += TRANSLATION_MODIFIER * x_axis;
-		map->points_tab[i].y += TRANSLATION_MODIFIER * y_axis;
-		map->points_tab[i].z += TRANSLATION_MODIFIER * z_axis;
+		map->points_tab[i].x += map->translation_modifier * x_axis;
+		map->points_tab[i].y += map->translation_modifier * y_axis;
+		map->points_tab[i].z += map->translation_modifier * z_axis;
 		i++;
 	}
 }

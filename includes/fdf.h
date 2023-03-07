@@ -10,10 +10,8 @@
 # define XK_LATIN1
 # define WINDOW_WIDTH 1920 // @TODO make renderer use different window size
 # define WINDOW_HEIGHT 1080
-# define BASE_ZOOM 40.
 # define ZOOM_MODIFIER 1.1
-# define TRANSLATION_MODIFIER .2
-# define ROTATION_MODIFIER 24.
+# define ROTATION_MODIFIER 48.
 
 typedef struct s_vector
 {
@@ -43,7 +41,5 @@ int		loop_hook(t_context *context);
 void	key_hook_tick(t_context *context, int keycode);
 
 t_point	transform(t_context *context, t_point *point);
-void	translate_map(t_map	*map, int x_axis, int y_axis, int z_axis);
-void	rotate_map(t_map	*map, double x_axis, double y_axis, double z_axis);
 
 #endif

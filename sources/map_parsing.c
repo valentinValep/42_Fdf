@@ -115,5 +115,11 @@ int	parse_map(t_map *map, char *filename)
 		return (close_file_error());
 	}
 	set_map_color(map);
+	map->translation_modifier = 1;
+	translate_map(map, -(map->width / 2), -(map->height / 2), 0);
+	if (map->width > map->height)
+		map->translation_modifier = map->width / 50.;
+	else
+		map->translation_modifier = map->height / 50.;
 	return (0);
 }
