@@ -39,19 +39,19 @@ static int	get_color(t_point point, t_map *map)
 		return (0x000000FF
 			-(int)(0xc0 * ((point.z - map->min_z - group_size * GROUP_1)
 				/ (group_size * (GROUP_2 - GROUP_1))))
-			+(((int)(0xFF * ((point.z - map->min_z - group_size * GROUP_1)
+			+(((int)(0x80 * ((point.z - map->min_z - group_size * GROUP_1)
 				/ (group_size * (GROUP_2 - GROUP_1))))) << 8)
 			+(((int)(0x40 * ((point.z - map->min_z - group_size * GROUP_1)
 				/ (group_size * (GROUP_2 - GROUP_1))))) << 16));
 	if (height_group < GROUP_3)
-		return (0x0040FF40
+		return (0x0040C040
 			-(int)(0x40 * ((point.z - map->min_z - group_size * GROUP_2)
 				/ (group_size * (GROUP_3 - GROUP_2))))
-			-(((int)(0xc0 * ((point.z - map->min_z - group_size * GROUP_2)
+			-(((int)(0x80 * ((point.z - map->min_z - group_size * GROUP_2)
 				/ (group_size * (GROUP_3 - GROUP_2))))) << 8)
 			+(((int)(0x40 * ((point.z - map->min_z - group_size * GROUP_2)
 				/ (group_size * (GROUP_3 - GROUP_2))))) << 16));
-	if (height_group < 9)
+	if (height_group < GROUP_3)
 		return (0x00804000);
 	return (0x00FFFFFF);
 }

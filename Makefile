@@ -3,7 +3,7 @@ NAME := fdf
 CC := cc
 
 # @TODO rm -g3 and -pg
-FLAGS := -Wall -Werror -Wextra -g3
+FLAGS := -Wall -Werror -Wextra -MMD -g3
 
 SOURCES_DIR := sources/
 BINARIES_DIR := build/
@@ -27,6 +27,8 @@ OBJ := $(SRC:.c=.o)
 
 SRC := $(addprefix $(SOURCES_DIR),$(SRC))
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
+
+DEPS := ${OBJ:.o=.d}
 
 RM := rm -f
 
@@ -58,3 +60,5 @@ fclean : clean
 re : fclean all
 
 .PHONY: all clean fclean re
+
+-include $(DEPS)
