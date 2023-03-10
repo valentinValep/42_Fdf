@@ -4,6 +4,11 @@
 # include "render.h"
 # include <stdlib.h>
 
+# define GROUP_1 1
+# define GROUP_2 3
+# define GROUP_3 6
+# define GROUP_4 9
+
 typedef struct s_map
 {
 	t_point			*points_tab;

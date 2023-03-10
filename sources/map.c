@@ -26,30 +26,34 @@ void	draw_map(t_context *context)
 	}
 }
 
-// start_color + ((range_color
-//	* (point.z * 10 / diff - start_range_z)
-//	* (100 / (end_range_z - start_range_z))) / 100 << color_shift)
 static int	get_color(t_point point, t_map *map)
 {
 	const double	diff = map->max_z - map->min_z;
+	const double	group_size = diff / 10;
+	const int		height_group = (point.z - map->min_z) / group_size;
 
-	if (point.z < 2 * diff / 10 + map->min_z)
+	if (height_group < GROUP_1)
 		return (0x00000080
-			+ (0x80 * (point.z * 10 / diff) * 50) / 100);
-	if (point.z < 6 * diff / 10 + map->min_z)
+			+ (int)(0x80 * ((point.z - map->min_z) / (group_size * GROUP_1))));
+	if (height_group < GROUP_2)
 		return (0x000000FF
-			-(0xc0 * (point.z * 10 / diff - 2) * 25) / 100
-			+((int)((0xFF * (point.z * 10 / diff - 2) * 25) / 100) << 8)
-			+((int)((0x40 * (point.z * 10 / diff - 2) * 25) / 100) << 16));
-	if (point.z < 9 * diff / 10 + map->min_z)
+			-(int)(0xc0 * ((point.z - map->min_z - group_size * GROUP_1)
+				/ (group_size * (GROUP_2 - GROUP_1))))
+			+(((int)(0xFF * ((point.z - map->min_z - group_size * GROUP_1)
+				/ (group_size * (GROUP_2 - GROUP_1))))) << 8)
+			+(((int)(0x40 * ((point.z - map->min_z - group_size * GROUP_1)
+				/ (group_size * (GROUP_2 - GROUP_1))))) << 16));
+	if (height_group < GROUP_3)
 		return (0x0040FF40
-			-(0x40 * (point.z * 10 / diff - 2) * (100 / (3.))) / 100
-			-((int)((0xc0 * (point.z * 10 / diff - 2)
-					* (100 / (3.))) / 100) << 8)
-			+((int)((0x40 * (point.z * 10 / diff - 2)
-					* (100 / (3.))) / 100) << 8));
-	else
-		return (0x00FFFFFF);
+			-(int)(0x40 * ((point.z - map->min_z - group_size * GROUP_2)
+				/ (group_size * (GROUP_3 - GROUP_2))))
+			-(((int)(0xc0 * ((point.z - map->min_z - group_size * GROUP_2)
+				/ (group_size * (GROUP_3 - GROUP_2))))) << 8)
+			+(((int)(0x40 * ((point.z - map->min_z - group_size * GROUP_2)
+				/ (group_size * (GROUP_3 - GROUP_2))))) << 16));
+	if (height_group < 9)
+		return (0x00804000);
+	return (0x00FFFFFF);
 }
 
 void	set_map_color(t_map *map)
