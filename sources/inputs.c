@@ -6,7 +6,40 @@
 #include <stdio.h> // @TODO rm
 int	keydown_hook(int keycode, t_context *context)
 {
-	if (!add_queue(&context->queue, keycode))
+	if (!add_queue(&context->queue, (t_content){keycode, 0, 0, KEYBOARD_TYPE}))
+	{
+		write(STDERR_FILENO, "Queue add failed\n", 17);
+		return (mlx_loop_end(context->renderer.mlx));
+	}
+	return (0);
+}
+
+int	button_press_hook(int button, int x, int y, t_context *context)
+{
+	if (!add_queue(&context->queue,
+			(t_content){button, x, y, BUTTON_PRESS_TYPE}))
+	{
+		write(STDERR_FILENO, "Queue add failed\n", 17);
+		return (mlx_loop_end(context->renderer.mlx));
+	}
+	return (0);
+}
+
+int	button_release_hook(int button, int x, int y, t_context *context)
+{
+	if (!add_queue(&context->queue,
+			(t_content){button, x, y, BUTTON_RELEASE_TYPE}))
+	{
+		write(STDERR_FILENO, "Queue add failed\n", 17);
+		return (mlx_loop_end(context->renderer.mlx));
+	}
+	return (0);
+}
+
+int	motion_hook(int x, int y, t_context *context)
+{
+	if (!add_queue(&context->queue,
+			(t_content){x, y, 0, MOTION_TYPE}))
 	{
 		write(STDERR_FILENO, "Queue add failed\n", 17);
 		return (mlx_loop_end(context->renderer.mlx));
@@ -21,17 +54,7 @@ int	destroy_hook(t_renderer *renderer)
 
 void	key_hook_tick(t_context *context, int keycode)
 {
-	if (keycode == XK_minus || keycode == XK_KP_Subtract)
-	{
-		context->camera.zoom /= ZOOM_MODIFIER;
-		context->map.is_update = 0;
-	}
-	else if (keycode == XK_equal || keycode == XK_KP_Add)
-	{
-		context->camera.zoom *= ZOOM_MODIFIER;
-		context->map.is_update = 0;
-	}
-	else if (keycode == XK_w)
+	if (keycode == XK_w)
 	{
 		translate_map(&context->map, 1, 1, 0);
 		context->map.is_update = 0;
@@ -49,26 +72,6 @@ void	key_hook_tick(t_context *context, int keycode)
 	else if (keycode == XK_d)
 	{
 		translate_map(&context->map, -1, 1, 0);
-		context->map.is_update = 0;
-	}
-	else if (keycode == XK_Right)
-	{
-		rotate_map(&context->map, 0, 0, 1);
-		context->map.is_update = 0;
-	}
-	else if (keycode == XK_Left)
-	{
-		rotate_map(&context->map, 0, 0, -1);
-		context->map.is_update = 0;
-	}
-	else if (keycode == XK_Up)
-	{
-		rotate_map(&context->map, 1, -1, 0);
-		context->map.is_update = 0;
-	}
-	else if (keycode == XK_Down)
-	{
-		rotate_map(&context->map, -1, 1, 0);
 		context->map.is_update = 0;
 	}
 	else if (keycode == XK_c)

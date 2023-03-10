@@ -5,10 +5,9 @@ void	init_queue(t_queue *queue)
 {
 	queue->first = NULL;
 	queue->last = NULL;
-	queue->current = 0;
 }
 
-int	add_queue(t_queue *queue, int value)
+int	add_queue(t_queue *queue, t_content value)
 {
 	t_element	*new;
 
@@ -25,7 +24,7 @@ int	add_queue(t_queue *queue, int value)
 	return (1);
 }
 
-int	queue_next(t_queue *queue, int *res)
+int	queue_next(t_queue *queue, t_content *res)
 {
 	t_element	*second;
 
