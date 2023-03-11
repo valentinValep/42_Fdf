@@ -22,7 +22,7 @@ void	init_context(t_context	*context, char **argv)
 	context->camera = (t_camera){WINDOW_HEIGHT
 		/ sqrt(context->map.height * context->map.height
 			+ context->map.width * context->map.width), (t_vector){0, 0, 0}};
-	context->mouse = (t_mouse){0, 0, 0, 0, 0};
+	context->mouse = (t_mouse){0, 0, (t_button){0, 0, 0}, (t_button){0, 0, 0}};
 }
 
 void	destroy_context(t_context	*context)

@@ -30,13 +30,19 @@ typedef struct s_camera
 	t_vector	translation_vec;
 }	t_camera;
 
-typedef struct s_mouse
+typedef struct s_button
 {
-	int	x;
-	int	y;
 	int	start_x;
 	int	start_y;
-	int	is_left_clicked;
+	int	is_clicked;
+}	t_button;
+
+typedef struct s_mouse
+{
+	int			x;
+	int			y;
+	t_button	right_button;
+	t_button	left_button;
 }	t_mouse;
 
 typedef struct s_context
@@ -56,6 +62,11 @@ int		destroy_hook(t_renderer *renderer);
 int		loop_hook(t_context *context);
 
 void	key_hook_tick(t_context *context, int keycode);
+void	button_queue_hook(t_button *button, t_queue_content content);
+
+void	left_button_tick(t_context *context);
+void	right_button_tick(t_context *context);
+void	draw_tick(t_context *context);
 
 t_point	transform(t_context *context, t_point *point);
 

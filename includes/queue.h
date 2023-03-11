@@ -6,18 +6,18 @@
 # define BUTTON_RELEASE_TYPE 3
 # define MOTION_TYPE 4
 
-typedef struct s_content
+typedef struct s_queue_content
 {
-	int	content;
-	int	content2;
-	int	content3;
+	int	button;
+	int	x;
+	int	y;
 	int	type;
-}	t_content;
+}	t_queue_content;
 
 typedef struct s_element
 {
-	t_content			content;
-	struct s_element	*next;
+	t_queue_content			content;
+	struct s_element		*next;
 }	t_element;
 
 typedef struct s_queue
@@ -32,7 +32,7 @@ void	init_queue(t_queue *queue);
 /// @param queue : an initialized queue
 /// @param value : value to add
 /// @return 1 on success | 0 on malloc fail
-int		add_queue(t_queue *queue, t_content value)
+int		add_queue(t_queue *queue, t_queue_content value)
 		__attribute__((warn_unused_result));
 
 
@@ -40,7 +40,7 @@ int		add_queue(t_queue *queue, t_content value)
 /// @param queue : an initialized
 /// @param res : ptr to the value to get
 /// @return 1 on success | 0 on empty queue
-int		queue_next(t_queue *queue, t_content *res);
+int		queue_next(t_queue *queue, t_queue_content *res);
 
 void	destroy_queue(t_queue *queue);
 

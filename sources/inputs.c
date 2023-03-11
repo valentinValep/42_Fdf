@@ -6,7 +6,7 @@
 #include <stdio.h> // @TODO rm
 int	keydown_hook(int keycode, t_context *context)
 {
-	if (!add_queue(&context->queue, (t_content){keycode, 0, 0, KEYBOARD_TYPE}))
+	if (!add_queue(&context->queue, (t_queue_content){keycode, 0, 0, KEYBOARD_TYPE}))
 	{
 		write(STDERR_FILENO, "Queue add failed\n", 17);
 		return (mlx_loop_end(context->renderer.mlx));
@@ -17,7 +17,7 @@ int	keydown_hook(int keycode, t_context *context)
 int	button_press_hook(int button, int x, int y, t_context *context)
 {
 	if (!add_queue(&context->queue,
-			(t_content){button, x, y, BUTTON_PRESS_TYPE}))
+			(t_queue_content){button, x, y, BUTTON_PRESS_TYPE}))
 	{
 		write(STDERR_FILENO, "Queue add failed\n", 17);
 		return (mlx_loop_end(context->renderer.mlx));
@@ -28,7 +28,7 @@ int	button_press_hook(int button, int x, int y, t_context *context)
 int	button_release_hook(int button, int x, int y, t_context *context)
 {
 	if (!add_queue(&context->queue,
-			(t_content){button, x, y, BUTTON_RELEASE_TYPE}))
+			(t_queue_content){button, x, y, BUTTON_RELEASE_TYPE}))
 	{
 		write(STDERR_FILENO, "Queue add failed\n", 17);
 		return (mlx_loop_end(context->renderer.mlx));
@@ -39,7 +39,7 @@ int	button_release_hook(int button, int x, int y, t_context *context)
 int	motion_hook(int x, int y, t_context *context)
 {
 	if (!add_queue(&context->queue,
-			(t_content){x, y, 0, MOTION_TYPE}))
+			(t_queue_content){0, x, y, MOTION_TYPE}))
 	{
 		write(STDERR_FILENO, "Queue add failed\n", 17);
 		return (mlx_loop_end(context->renderer.mlx));
@@ -54,29 +54,65 @@ int	destroy_hook(t_renderer *renderer)
 
 void	key_hook_tick(t_context *context, int keycode)
 {
-	if (keycode == XK_w)
+	(void)context;
+	(void)keycode;
+	return ;
+}
+
+void	button_queue_hook(t_button *button, t_queue_content content)
+{
+	button->is_clicked = IS_PRESSED;
+	button->start_x = content.x;
+	button->start_y = content.y;
+}
+
+void	left_button_tick(t_context *context)
+{
+	if (context->mouse.left_button.is_clicked == IS_PRESSED)
 	{
-		translate_map(&context->map, 1, 1, 0);
+		mlx_mouse_hide(context->renderer.mlx, context->renderer.window);
+		rotate_map(&context->map,
+			-(context->mouse.y - context->mouse.left_button.start_y),
+			context->mouse.y - context->mouse.left_button.start_y,
+			context->mouse.x - context->mouse.left_button.start_x);
+		mlx_mouse_move(context->renderer.mlx, context->renderer.window,
+			context->mouse.left_button.start_x, context->mouse.left_button.start_y);
+		context->mouse.x = context->mouse.left_button.start_x;
+		context->mouse.y = context->mouse.left_button.start_y;
 		context->map.is_update = 0;
 	}
-	else if (keycode == XK_s)
+	if (context->mouse.left_button.is_clicked == WAS_PRESSED)
 	{
-		translate_map(&context->map, -1, -1, 0);
+		mlx_mouse_show(context->renderer.mlx, context->renderer.window);
+		context->mouse.left_button.is_clicked = UNPRESSED;
+	}
+}
+
+void	right_button_tick(t_context *context)
+{
+	if (context->mouse.right_button.is_clicked == IS_PRESSED)
+	{
+		translate_map(&context->map,
+			(context->mouse.y - context->mouse.right_button.start_y)
+			+ (context->mouse.x - context->mouse.right_button.start_x),
+			(context->mouse.y - context->mouse.right_button.start_y)
+			- (context->mouse.x - context->mouse.right_button.start_x),
+			0);
+		context->mouse.right_button.start_x = context->mouse.x;
+		context->mouse.right_button.start_y = context->mouse.y;
 		context->map.is_update = 0;
 	}
-	else if (keycode == XK_a)
+	if (context->mouse.right_button.is_clicked == WAS_PRESSED)
+		context->mouse.right_button.is_clicked = UNPRESSED;
+}
+
+void	draw_tick(t_context *context)
+{
+	if (!context->map.is_update)
 	{
-		translate_map(&context->map, 1, -1, 0);
-		context->map.is_update = 0;
-	}
-	else if (keycode == XK_d)
-	{
-		translate_map(&context->map, -1, 1, 0);
-		context->map.is_update = 0;
-	}
-	else if (keycode == XK_c)
-	{
-		swap_projection(&context->renderer);
-		context->map.is_update = 0;
+		clear_renderer(&context->renderer);
+		draw_map(context);
+		put_origins(&context->renderer);
+		context->map.is_update = 1;
 	}
 }

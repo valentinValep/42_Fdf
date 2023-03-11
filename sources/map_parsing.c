@@ -118,8 +118,8 @@ int	parse_map(t_map *map, char *filename)
 	map->translation_modifier = 1;
 	translate_map(map, -(map->width / 2), -(map->height / 2), 0);
 	if (map->width > map->height)
-		map->translation_modifier = map->width / 50.;
+		map->translation_modifier = map->width / 800.;
 	else
-		map->translation_modifier = map->height / 50.;
+		map->translation_modifier = map->height / 800.;
 	return (0);
 }

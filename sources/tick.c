@@ -3,26 +3,27 @@
 #include <X11/X.h>
 
 #include <stdio.h> // @TODO rm
-static void	mouse_hook(t_context *context, t_content content)
+static void	mouse_hook(t_context *context, t_queue_content content)
 {
 	if (content.type == BUTTON_PRESS_TYPE)
 	{
-		//printf("PRESS <%d>, x <%d>, y <%d>\n", content.content, content.content2, content.content3);
-		if (content.content == Button3
-			&& !context->mouse.is_left_clicked)
+		if (content.button == Button1
+			&& !context->mouse.right_button.is_clicked)
+			button_queue_hook(&context->mouse.right_button, content);
+		if (content.button == Button2)
 		{
-			context->mouse.is_left_clicked = IS_PRESSED;
-			context->mouse.start_x = content.content2;
-			context->mouse.start_y = content.content3;
-			context->mouse.x = context->mouse.start_x;
-			context->mouse.y = context->mouse.start_y;
+			swap_projection(&context->renderer);
+			context->map.is_update = 0;
 		}
-		if (content.content == Button4)
+		if (content.button == Button3
+			&& !context->mouse.left_button.is_clicked)
+			button_queue_hook(&context->mouse.left_button, content);
+		if (content.button == Button4)
 		{
 			context->camera.zoom *= ZOOM_MODIFIER;
 			context->map.is_update = 0;
 		}
-		if (content.content == Button5)
+		if (content.button == Button5)
 		{
 			context->camera.zoom /= ZOOM_MODIFIER;
 			context->map.is_update = 0;
@@ -30,62 +31,33 @@ static void	mouse_hook(t_context *context, t_content content)
 	}
 	else if (content.type == BUTTON_RELEASE_TYPE)
 	{
-		//printf("RELEASE <%d>, x <%d>, y <%d>\n", content.content, content.content2, content.content3);
-		if (content.content == Button3)
-			context->mouse.is_left_clicked = WAS_PRESSED;
+		if (content.button == Button1)
+			context->mouse.right_button.is_clicked = WAS_PRESSED;
+		if (content.button == Button3)
+			context->mouse.left_button.is_clicked = WAS_PRESSED;
 	}
-	else if (content.type == MOTION_TYPE)
-	{
-		//printf("Motion x <%d>, y <%d>\n", content.content, content.content2);
-		if (context->mouse.is_left_clicked == IS_PRESSED)
-		{
-			context->mouse.x = content.content;
-			context->mouse.y = content.content2;
-		}
-	}
+	context->mouse.x = content.x;
+	context->mouse.y = content.y;
 }
 
 int	loop_hook(t_context *context)
 {
-	t_content	content;
+	t_queue_content	content;
 
 	while (queue_next(&context->queue, &content))
 	{
 		if (content.type == KEYBOARD_TYPE)
 		{
-			if (content.content == XK_Escape)
+			if (content.button == XK_Escape)
 				return (mlx_loop_end(context->renderer.mlx));
-			key_hook_tick(context, content.content);
+			key_hook_tick(context, content.button);
 		}
 		else
 			mouse_hook(context, content);
 	}
-	if (context->mouse.is_left_clicked == IS_PRESSED)
-	{
-		mlx_mouse_hide(context->renderer.mlx, context->renderer.window);
-		rotate_map(&context->map,
-			-(context->mouse.y - context->mouse.start_y),
-			context->mouse.y - context->mouse.start_y,
-			context->mouse.x - context->mouse.start_x);
-		mlx_mouse_move(context->renderer.mlx, context->renderer.window,
-			context->mouse.start_x, context->mouse.start_y);
-		context->mouse.x = context->mouse.start_x;
-		context->mouse.y = context->mouse.start_y;
-		context->map.is_update = 0;
-	}
-	if (context->mouse.is_left_clicked == WAS_PRESSED)
-	{
-		mlx_mouse_show(context->renderer.mlx, context->renderer.window);
-		context->map.is_update = 0;
-		context->mouse.is_left_clicked = UNPRESSED;
-	}
-	if (!context->map.is_update)
-	{
-		clear_renderer(&context->renderer);
-		draw_map(context);
-		//put_origins(&context->renderer);
-		context->map.is_update = 1;
-	}
+	left_button_tick(context);
+	right_button_tick(context);
+	draw_tick(context);
 	render_tick(&context->renderer);
 	return (0);
 }
