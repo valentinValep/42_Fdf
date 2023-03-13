@@ -21,7 +21,10 @@ void	init_context(t_context	*context, char **argv)
 	}
 	context->camera = (t_camera){WINDOW_HEIGHT
 		/ sqrt(context->map.height * context->map.height
-			+ context->map.width * context->map.width), (t_vector){0, 0, 0}};
+			+ context->map.width * context->map.width),
+		(t_vector){0, 0, 0}, (t_vector){0, 0, 0}};
+	translate_map(&context->map,
+		-(context->map.width / 2), -(context->map.height / 2), 0);
 	context->mouse = (t_mouse){0, 0, (t_button){0, 0, 0}, (t_button){0, 0, 0}};
 }
 

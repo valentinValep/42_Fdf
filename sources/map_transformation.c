@@ -3,12 +3,44 @@
 
 t_point	transform(t_context *context, t_point *point)
 {
-	return ((t_point){
-		point->x * context->camera.zoom,
-		point->y * context->camera.zoom,
-		point->z * context->camera.zoom,
-		point->color
-	});
+	const t_vector	rad = (t_vector){
+		context->camera.rotation.x * M_PI / ROTATION_MODIFIER,
+		context->camera.rotation.y * M_PI / ROTATION_MODIFIER,
+		context->camera.rotation.z * M_PI / ROTATION_MODIFIER};
+	t_vector		tmp;
+	t_point			res;
+
+	res.color = point->color;
+	tmp.x = point->x;
+	tmp.y = point->y;
+	tmp.z = point->z;
+	res.x = cos(rad.z) * cos(rad.y) * tmp.x
+		+ ((cos(rad.z) * sin(rad.y) * sin(rad.x))
+			- (sin(rad.z) * cos(rad.x))) * tmp.y
+		+ ((cos(rad.z) * sin(rad.y) * cos(rad.x))
+			+ (sin(rad.z) * sin(rad.x))) * tmp.z;
+	res.y = sin(rad.z) * cos(rad.y) * tmp.x
+		+ ((sin(rad.z) * sin(rad.y) * sin(rad.x))
+			+ (cos(rad.z) * cos(rad.x))) * tmp.y
+		+ ((sin(rad.z) * sin(rad.y) * cos(rad.x))
+			- (cos(rad.z) * sin(rad.x))) * tmp.z;
+	res.z = -sin(rad.y) * tmp.x
+		+ (cos(rad.y) * sin(rad.x)) * tmp.y
+		+ (cos(rad.y) * cos(rad.x)) * tmp.z;
+	res.x += context->camera.translation.x * context->map.translation_modifier;
+	res.y += context->camera.translation.y * context->map.translation_modifier;
+	res.z += context->camera.translation.z * context->map.translation_modifier;
+	res.x *= context->camera.zoom;
+	res.y *= context->camera.zoom;
+	res.z *= context->camera.zoom;
+	return (res);
+}
+
+void	translate_camera(t_camera *camera, int x_axis, int y_axis, int z_axis)
+{
+	camera->translation.x += x_axis;
+	camera->translation.y += y_axis;
+	camera->translation.z += z_axis;
 }
 
 void	translate_map(t_map	*map, int x_axis, int y_axis, int z_axis)
@@ -18,62 +50,38 @@ void	translate_map(t_map	*map, int x_axis, int y_axis, int z_axis)
 	i = 0;
 	while (i < map->height * map->width)
 	{
-		map->points_tab[i].x += map->translation_modifier * x_axis;
-		map->points_tab[i].y += map->translation_modifier * y_axis;
-		map->points_tab[i].z += map->translation_modifier * z_axis;
+		map->points_tab[i].x += x_axis;
+		map->points_tab[i].y += y_axis;
+		map->points_tab[i].z += z_axis;
 		i++;
 	}
 }
 
-void	rotate_map(t_map *map, double x_axis, double y_axis, double z_axis)
+void	rotate_camera(t_camera *camera, double x_axis, double y_axis, double z_axis)
+{
+	camera->rotation.x += x_axis;
+	camera->rotation.y += y_axis;
+	camera->rotation.z += z_axis;
+}
+
+void	reset_rotation(t_camera *camera)
+{
+	camera->rotation.x = 0;
+	camera->rotation.y = 0;
+	camera->rotation.z = 0;
+}
+
+void	change_height_map(t_map *map, float scale)
 {
 	unsigned int	i;
-	double			*tmp;
-	const double	rad[3] = {z_axis * M_PI / ROTATION_MODIFIER,
-		y_axis * M_PI / ROTATION_MODIFIER, x_axis * M_PI / ROTATION_MODIFIER};
 
+	if (map->height_scale > 32)
+		return ;
+	map->height_scale *= scale;
 	i = 0;
 	while (i < map->height * map->width)
 	{
-		tmp = (double [3]){map->points_tab[i].x,
-			map->points_tab[i].y, map->points_tab[i].z};
-		map->points_tab[i].x = cos(rad[0]) * cos(rad[1]) * tmp[0]
-			+ ((cos(rad[0]) * sin(rad[1]) * sin(rad[2]))
-				- (sin(rad[0]) * cos(rad[2]))) * tmp[1]
-			+ ((cos(rad[0]) * sin(rad[1]) * cos(rad[2]))
-				+ (sin(rad[0]) * sin(rad[2]))) * tmp[2];
-		map->points_tab[i].y = sin(rad[0]) * cos(rad[1]) * tmp[0]
-			+ ((sin(rad[0]) * sin(rad[1]) * sin(rad[2]))
-				+ (cos(rad[0]) * cos(rad[2]))) * tmp[1]
-			+ ((sin(rad[0]) * sin(rad[1]) * cos(rad[2]))
-				- (cos(rad[0]) * sin(rad[2]))) * tmp[2];
-		map->points_tab[i].z = -sin(rad[1]) * tmp[0]
-			+ (cos(rad[1]) * sin(rad[2])) * tmp[1]
-			+ (cos(rad[1]) * cos(rad[2])) * tmp[2];
-
-		//tmp = map->points_tab[i].y;
-		//map->points_tab[i].y
-		//	= tmp[1] * cos(alpha)
-		//	+ map->points_tab[i].z * -sin(alpha);
-		//map->points_tab[i].z
-		//	= tmp[1] * sin(alpha)
-		//	+ map->points_tab[i].z * cos(alpha);
-
-		//tmp = map->points_tab[i].x;
-		//map->points_tab[i].x
-		//	= tmp[0] * cos(beta)
-		//	+ map->points_tab[i].z * sin(beta);
-		//map->points_tab[i].z
-		//	= tmp[0] * -sin(beta)
-		//	+ map->points_tab[i].z * cos(beta);
-
-		//tmp = map->points_tab[i].x;
-		//map->points_tab[i].x
-		//	= tmp[0] * cos(gamma)
-		//	+ map->points_tab[i].y * -sin(gamma);
-		//map->points_tab[i].y
-		//	= tmp[0] * sin(gamma)
-		//	+ map->points_tab[i].y * cos(gamma);
+		map->points_tab[i].z *= scale;
 		i++;
 	}
 }

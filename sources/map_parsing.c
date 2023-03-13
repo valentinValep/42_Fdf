@@ -55,10 +55,8 @@ static int	parse_line(t_map *map, char *line_str)
 		current_word++;
 	while (i < map->height * map->width)
 	{
-		new_point.color = -1;
-		new_point.x = i % map->width;
-		new_point.y = i / map->width;
-		new_point.z = ft_atoi(current_word);
+		new_point = (t_point){i % map->width, i / map->width,
+			ft_atoi(current_word), -1};
 		if (!i || map->min_z > new_point.z)
 			map->min_z = new_point.z;
 		if (!i || map->max_z < new_point.z)
@@ -73,10 +71,23 @@ static int	parse_line(t_map *map, char *line_str)
 static void	init_map(t_map *map, char *first_line)
 {
 	map->height = 0;
+	map->height_scale = 1.;
 	map->malloc_size = 0;
 	map->points_tab = NULL;
 	map->width = count_word(first_line, ' ');
 	map->is_update = 0;
+}
+
+static int	end_parsing(t_map *map)
+{
+	set_map_color(map);
+	map->position = (t_point){0, 0, 0, 0};
+	map->rotation = (t_point){0, 0, 0, 0};
+	if (map->width > map->height)
+		map->translation_modifier = map->width / 800.;
+	else
+		map->translation_modifier = map->height / 800.;
+	return (0);
 }
 
 int	parse_map(t_map *map, char *filename)
@@ -114,12 +125,5 @@ int	parse_map(t_map *map, char *filename)
 		destroy_map(map);
 		return (close_file_error());
 	}
-	set_map_color(map);
-	map->translation_modifier = 1;
-	translate_map(map, -(map->width / 2), -(map->height / 2), 0);
-	if (map->width > map->height)
-		map->translation_modifier = map->width / 800.;
-	else
-		map->translation_modifier = map->height / 800.;
-	return (0);
+	return (end_parsing(map));
 }

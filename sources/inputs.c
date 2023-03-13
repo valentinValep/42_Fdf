@@ -56,6 +56,31 @@ void	key_hook_tick(t_context *context, int keycode)
 {
 	(void)context;
 	(void)keycode;
+	if (keycode == XK_minus || keycode == XK_KP_Subtract)
+	{
+		change_height_map(&context->map, DOWNSCALE);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_equal || keycode == XK_KP_Add)
+	{
+		change_height_map(&context->map, UPSCALE);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_r)
+	{
+		reset_rotation(&context->camera);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_Up)
+	{
+		rotate_camera(&context->camera, 100, 0, 0);
+		context->map.is_update = 0;
+	}
+	else if (keycode == XK_Down)
+	{
+		rotate_camera(&context->camera, -100, 0, 0);
+		context->map.is_update = 0;
+	}
 	return ;
 }
 
@@ -71,9 +96,9 @@ void	left_button_tick(t_context *context)
 	if (context->mouse.left_button.is_clicked == IS_PRESSED)
 	{
 		mlx_mouse_hide(context->renderer.mlx, context->renderer.window);
-		rotate_map(&context->map,
+		rotate_camera(&context->camera,
 			-(context->mouse.y - context->mouse.left_button.start_y),
-			context->mouse.y - context->mouse.left_button.start_y,
+			0,
 			context->mouse.x - context->mouse.left_button.start_x);
 		mlx_mouse_move(context->renderer.mlx, context->renderer.window,
 			context->mouse.left_button.start_x, context->mouse.left_button.start_y);
@@ -92,7 +117,7 @@ void	right_button_tick(t_context *context)
 {
 	if (context->mouse.right_button.is_clicked == IS_PRESSED)
 	{
-		translate_map(&context->map,
+		translate_camera(&context->camera,
 			(context->mouse.y - context->mouse.right_button.start_y)
 			+ (context->mouse.x - context->mouse.right_button.start_x),
 			(context->mouse.y - context->mouse.right_button.start_y)
@@ -112,7 +137,7 @@ void	draw_tick(t_context *context)
 	{
 		clear_renderer(&context->renderer);
 		draw_map(context);
-		put_origins(&context->renderer);
+		//put_origins(&context->renderer);
 		context->map.is_update = 1;
 	}
 }

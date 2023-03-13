@@ -17,6 +17,9 @@
 # define IS_PRESSED 1
 # define WAS_PRESSED 2
 
+# define UPSCALE 2
+# define DOWNSCALE 0.5
+
 typedef struct s_vector
 {
 	double	x;
@@ -27,7 +30,8 @@ typedef struct s_vector
 typedef struct s_camera
 {
 	double		zoom;
-	t_vector	translation_vec;
+	t_vector	translation;
+	t_vector	rotation;
 }	t_camera;
 
 typedef struct s_button
@@ -69,5 +73,9 @@ void	right_button_tick(t_context *context);
 void	draw_tick(t_context *context);
 
 t_point	transform(t_context *context, t_point *point);
+void	rotate_camera(
+			t_camera *camera, double x_axis, double y_axis, double z_axis);
+void	reset_rotation(t_camera *camera);
+void	translate_camera(t_camera *camera, int x_axis, int y_axis, int z_axis);
 
 #endif
