@@ -38,6 +38,8 @@ $(NAME) : $(OBJ)
 	make -C $(LIBRARIES_DIR)minilibx-linux
 	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
 
+bonus : $(NAME)
+
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
 # @TODO use .d dependencies
