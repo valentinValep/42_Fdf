@@ -86,7 +86,7 @@ static int	end_parsing(t_map *map)
 		map->translation_modifier = map->width / 800.;
 	else
 		map->translation_modifier = map->height / 800.;
-	map->height_scale = (double)(1 << 3) / (map->max_z - map->min_z);
+	map->height_scale = (double)(1 << 5) / (map->max_z - map->min_z);
 	return (0);
 }
 

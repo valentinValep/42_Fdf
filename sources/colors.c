@@ -28,10 +28,11 @@ int	get_color(char *word)
 
 	// verif
 	len = 0;
-	while (word[len] != '\0' && word[len] != ' ')
+	while (word[len] != '\0' && word[len] != ' ' && word[len] != '\n')
 		len++;
-	x_pos = 0;
-	while (x_pos < len && word[x_pos] != 'x')
+	x_pos = 3;
+	while (x_pos < len && word[x_pos] != 'x'
+		&& word[x_pos - 1] != '0' && word[x_pos - 2] != ',')
 		x_pos++;
 	if (x_pos == len
 		|| ((len - x_pos) != 3 && (len - x_pos) != 5 && (len - x_pos) != 7))
