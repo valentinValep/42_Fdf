@@ -56,7 +56,7 @@ static int	parse_line(t_map *map, char *line_str)
 	while (i < map->height * map->width)
 	{
 		new_point = (t_point){i % map->width, i / map->width,
-			ft_atoi(current_word), -1};
+			ft_atoi(current_word), get_color(current_word)};
 		if (!i || map->min_z > new_point.z)
 			map->min_z = new_point.z;
 		if (!i || map->max_z < new_point.z)

@@ -14,18 +14,16 @@ INCLUDES := -I$(INCLUDES_DIR) -I/usr/include -I$(LIBRARIES_DIR)minilibx-linux -I
 
 LIBRARIES := -L$(LIBRARIES_DIR)renderer -lfdf_renderer -L$(LIBRARIES_DIR)minilibx-linux -lmlx -L/usr/lib -lXext -lX11 -lm -lz -L$(LIBRARIES_DIR)libft -lft
 
-SRC := main.c \
-	queue.c \
-	inputs.c \
-	tick.c \
-	map.c \
-	map_parsing.c \
-	map_transformation.c \
-	error.c \
+OBJ := main.o \
+	queue.o \
+	inputs.o \
+	tick.o \
+	map.o \
+	map_parsing.o \
+	map_transformation.o \
+	error.o \
+	colors.o \
 
-OBJ := $(SRC:.c=.o)
-
-SRC := $(addprefix $(SOURCES_DIR),$(SRC))
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 
 DEPS := ${OBJ:.o=.d}

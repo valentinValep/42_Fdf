@@ -30,7 +30,9 @@ typedef struct s_context	t_context;
 int		parse_map(t_map *map, char *str);
 void	destroy_map(t_map *map);
 void	draw_map(t_context *context);
+
 void	set_map_color(t_map *map);
+int		get_color(char *word);
 
 void	translate_map(t_map	*map, int x_axis, int y_axis, int z_axis);
 void	change_height_map(t_map *map, float scale);
