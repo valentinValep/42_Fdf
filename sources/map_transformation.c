@@ -70,18 +70,10 @@ void	reset_rotation(t_camera *camera)
 	camera->rotation.y = 0;
 	camera->rotation.z = 0;
 }
-#include <stdio.h>
+
 void	change_height_map(t_map *map, float scale)
 {
-	//unsigned int	i;
-
 	if (map->height_scale > 32)
 		return ;
 	map->height_scale *= scale;
-	//i = 0;
-	//while (i < map->height * map->width)
-	//{
-	//	map->points_tab[i].z *= scale;
-	//	i++;
-	//}
 }
