@@ -4,7 +4,7 @@ CC := cc
 
 # @TODO rm -g3 and -pg
 FLAGS := -Wall -Werror -Wextra -MMD -g3
-
+# -O3  -march=native
 SOURCES_DIR := sources/
 BINARIES_DIR := build/
 INCLUDES_DIR := includes/

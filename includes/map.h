@@ -4,10 +4,11 @@
 # include "render.h"
 # include <stdlib.h>
 
-# define GROUP_1 1
-# define GROUP_2 2
-# define GROUP_3 6
-# define GROUP_4 9
+# define GROUP_COUNT 100
+# define GROUP_1 50
+# define GROUP_2 60
+# define GROUP_3 80
+# define GROUP_4 90
 
 typedef struct s_map
 {

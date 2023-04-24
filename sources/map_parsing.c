@@ -71,7 +71,6 @@ static int	parse_line(t_map *map, char *line_str)
 static void	init_map(t_map *map, char *first_line)
 {
 	map->height = 0;
-	map->height_scale = 1.;
 	map->malloc_size = 0;
 	map->points_tab = NULL;
 	map->width = count_word(first_line, ' ');
@@ -87,6 +86,7 @@ static int	end_parsing(t_map *map)
 		map->translation_modifier = map->width / 800.;
 	else
 		map->translation_modifier = map->height / 800.;
+	map->height_scale = (double)(1 << 3) / (map->max_z - map->min_z);
 	return (0);
 }
 

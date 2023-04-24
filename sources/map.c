@@ -29,7 +29,7 @@ void	draw_map(t_context *context)
 static int	get_color(t_point point, t_map *map)
 {
 	const double	diff = map->max_z - map->min_z;
-	const double	group_size = diff / 10;
+	const double	group_size = diff / GROUP_COUNT;
 	const int		height_group = (point.z - map->min_z) / group_size;
 
 	if (height_group < GROUP_1)

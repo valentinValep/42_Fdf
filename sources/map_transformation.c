@@ -13,7 +13,7 @@ t_point	transform(t_context *context, t_point *point)
 	res.color = point->color;
 	tmp.x = point->x;
 	tmp.y = point->y;
-	tmp.z = point->z;
+	tmp.z = point->z * context->map.height_scale;
 	res.x = cos(rad.z) * cos(rad.y) * tmp.x
 		+ ((cos(rad.z) * sin(rad.y) * sin(rad.x))
 			- (sin(rad.z) * cos(rad.x))) * tmp.y
@@ -70,18 +70,18 @@ void	reset_rotation(t_camera *camera)
 	camera->rotation.y = 0;
 	camera->rotation.z = 0;
 }
-
+#include <stdio.h>
 void	change_height_map(t_map *map, float scale)
 {
-	unsigned int	i;
+	//unsigned int	i;
 
 	if (map->height_scale > 32)
 		return ;
 	map->height_scale *= scale;
-	i = 0;
-	while (i < map->height * map->width)
-	{
-		map->points_tab[i].z *= scale;
-		i++;
-	}
+	//i = 0;
+	//while (i < map->height * map->width)
+	//{
+	//	map->points_tab[i].z *= scale;
+	//	i++;
+	//}
 }

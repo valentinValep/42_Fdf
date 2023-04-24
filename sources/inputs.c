@@ -101,7 +101,8 @@ void	left_button_tick(t_context *context)
 			0,
 			context->mouse.x - context->mouse.left_button.start_x);
 		mlx_mouse_move(context->renderer.mlx, context->renderer.window,
-			context->mouse.left_button.start_x, context->mouse.left_button.start_y);
+			context->mouse.left_button.start_x,
+			context->mouse.left_button.start_y);
 		context->mouse.x = context->mouse.left_button.start_x;
 		context->mouse.y = context->mouse.left_button.start_y;
 		context->map.is_update = 0;
