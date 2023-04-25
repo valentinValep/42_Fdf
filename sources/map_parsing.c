@@ -79,6 +79,8 @@ static void	init_map(t_map *map, char *first_line)
 
 static int	end_parsing(t_map *map)
 {
+	const int	diff = map->max_z - map->min_z;
+
 	set_map_color(map);
 	map->position = (t_point){0, 0, 0, 0};
 	map->rotation = (t_point){0, 0, 0, 0};
@@ -86,7 +88,18 @@ static int	end_parsing(t_map *map)
 		map->translation_modifier = map->width / 800.;
 	else
 		map->translation_modifier = map->height / 800.;
-	map->height_scale = (double)(1 << 5) / (map->max_z - map->min_z);
+	if (diff < 50)
+		map->height_scale = 0.08;
+	else if (diff < 120)
+		map->height_scale = 0.2;
+	else if (diff < 300)
+		map->height_scale = 0.4;
+	else if (diff < 600)
+		map->height_scale = 0.2;
+	else if (diff < 1000)
+		map->height_scale = 0.08;
+	else
+		map->height_scale = 0.02;
 	return (0);
 }
 
