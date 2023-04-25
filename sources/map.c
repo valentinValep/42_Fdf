@@ -1,9 +1,56 @@
 #include "fdf.h"
 #include <stdlib.h>
+#include <math.h>
 
 void	destroy_map(t_map *map)
 {
 	free(map->points_tab);
+}
+
+static void	init_transform(
+	t_context *context, t_point *point, t_vector *tmp, t_point *res)
+{
+	res->color = point->color;
+	tmp->x = point->x;
+	tmp->y = point->y;
+	tmp->z = point->z * context->map.height_scale;
+}
+
+static void	end_tranform(t_context *context, t_point *res)
+{
+	res->x += context->camera.translation.x * context->map.translation_modifier;
+	res->y += context->camera.translation.y * context->map.translation_modifier;
+	res->z += context->camera.translation.z * context->map.translation_modifier;
+	res->x *= context->camera.zoom;
+	res->y *= context->camera.zoom;
+	res->z *= context->camera.zoom;
+}
+
+static t_point	transform(t_context *context, t_point *point)
+{
+	const t_vector	rad = (t_vector){
+		context->camera.rotation.x * M_PI / ROTATION_MODIFIER,
+		context->camera.rotation.y * M_PI / ROTATION_MODIFIER,
+		context->camera.rotation.z * M_PI / ROTATION_MODIFIER};
+	t_vector		tmp;
+	t_point			res;
+
+	init_transform(context, point, &tmp, &res);
+	res.x = cos(rad.z) * cos(rad.y) * tmp.x
+		+ ((cos(rad.z) * sin(rad.y) * sin(rad.x))
+			- (sin(rad.z) * cos(rad.x))) * tmp.y
+		+ ((cos(rad.z) * sin(rad.y) * cos(rad.x))
+			+ (sin(rad.z) * sin(rad.x))) * tmp.z;
+	res.y = sin(rad.z) * cos(rad.y) * tmp.x
+		+ ((sin(rad.z) * sin(rad.y) * sin(rad.x))
+			+ (cos(rad.z) * cos(rad.x))) * tmp.y
+		+ ((sin(rad.z) * sin(rad.y) * cos(rad.x))
+			- (cos(rad.z) * sin(rad.x))) * tmp.z;
+	res.z = -sin(rad.y) * tmp.x
+		+ (cos(rad.y) * sin(rad.x)) * tmp.y
+		+ (cos(rad.y) * cos(rad.x)) * tmp.z;
+	end_tranform(context, &res);
+	return (res);
 }
 
 void	draw_map(t_context *context)

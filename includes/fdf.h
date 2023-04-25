@@ -66,13 +66,10 @@ int		destroy_hook(t_renderer *renderer);
 int		loop_hook(t_context *context);
 
 void	key_hook_tick(t_context *context, int keycode);
-void	button_queue_hook(t_button *button, t_queue_content content);
-
 void	left_button_tick(t_context *context);
 void	right_button_tick(t_context *context);
 void	draw_tick(t_context *context);
 
-t_point	transform(t_context *context, t_point *point);
 void	rotate_camera(
 			t_camera *camera, double x_axis, double y_axis, double z_axis);
 void	reset_rotation(t_camera *camera);

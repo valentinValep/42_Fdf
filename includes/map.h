@@ -28,6 +28,7 @@ typedef struct s_map
 typedef struct s_context	t_context;
 
 int		parse_map(t_map *map, char *str);
+void	upscale_map(t_map *map, size_t size);
 void	destroy_map(t_map *map);
 void	draw_map(t_context *context);
 

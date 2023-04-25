@@ -16,13 +16,15 @@ LIBRARIES := -L$(LIBRARIES_DIR)renderer -lfdf_renderer -L$(LIBRARIES_DIR)minilib
 
 OBJ := main.o \
 	queue.o \
-	inputs.o \
+	inputs_hooks.o \
+	inputs_ticks.o \
 	tick.o \
 	map.o \
 	map_parsing.o \
 	map_transformation.o \
 	error.o \
 	colors.o \
+	map_utils.o \
 
 OBJ := $(addprefix $(BINARIES_DIR),$(OBJ))
 

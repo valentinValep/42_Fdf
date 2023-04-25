@@ -26,7 +26,6 @@ int	get_color(char *word)
 	int	i;
 	int	res;
 
-	// verif
 	len = 0;
 	while (word[len] != '\0' && word[len] != ' ' && word[len] != '\n')
 		len++;
@@ -42,7 +41,6 @@ int	get_color(char *word)
 		i++;
 	if (i != len)
 		return (-1);
-	// parse
 	res = 0;
 	i = len;
 	while (--i > x_pos)
@@ -75,9 +73,7 @@ static int	get_height_color(t_point point, t_map *map)
 				/ (group_size * (GROUP_3 - GROUP_2))))) << 8)
 			+(((int)(0x40 * ((point.z - map->min_z - group_size * GROUP_2)
 				/ (group_size * (GROUP_3 - GROUP_2))))) << 16));
-	if (height_group < GROUP_3)
-		return (0x00804000);
-	return (0x00FFFFFF);
+	return ((int []){0x00FFFFFF, 0x00804000}[height_group < GROUP_3]);
 }
 
 void	set_map_color(t_map *map)

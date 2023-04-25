@@ -35,7 +35,6 @@ void	init_queue(t_queue *queue);
 int		add_queue(t_queue *queue, t_queue_content value)
 		__attribute__((warn_unused_result));
 
-
 /// @brief Get next int of the queue and consume it
 /// @param queue : an initialized
 /// @param res : ptr to the value to get

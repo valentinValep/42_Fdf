@@ -43,7 +43,6 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (basic_error("Need one argument\n", 1));
 	init_context(&context, argv);
-
 	mlx_hook(context.renderer.window, KeyPress, KeyPressMask,
 		keydown_hook, &context);
 	mlx_hook(context.renderer.window, DestroyNotify, NoEventMask,
