@@ -2,8 +2,7 @@ NAME := fdf
 
 CC := cc
 
-# @TODO rm -g3 and -pg
-FLAGS := -Wall -Werror -Wextra -MMD -g3
+FLAGS := -Wall -Werror -Wextra -MMD
 # -O3  -march=native
 SOURCES_DIR := sources/
 BINARIES_DIR := build/
@@ -42,7 +41,7 @@ bonus : $(NAME)
 
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
-# @TODO use .d dependencies
+
 $(BINARIES_DIR)%.o : $(SOURCES_DIR)%.c | $(BINARIES_DIR)
 	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 

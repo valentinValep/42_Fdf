@@ -8,7 +8,7 @@
 
 # define XK_MISCELLANY
 # define XK_LATIN1
-# define WINDOW_WIDTH 1920 // @TODO make renderer use different window size
+# define WINDOW_WIDTH 1920
 # define WINDOW_HEIGHT 1080
 # define ZOOM_MODIFIER 1.1
 # define ROTATION_MODIFIER 4092.
