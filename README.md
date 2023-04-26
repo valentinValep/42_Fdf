@@ -32,11 +32,11 @@ Where each line represents a point in the 3D space, with x, y, z coordinates. An
 
 The program supports zooming, translation, and rotation of the map using the mouse.
 
-+ Scroll - zoom in / out
-+ Left click and drag - translate the map in the corresponding direction
-+ Right click and drag - rotate the map around the x-axis
-+ Middle click - switch between isometric and military projections.
-+ r - reset the map to its original rotation
++ `Scroll` - zoom in / out
++ `Left click` and drag - translate the map in the corresponding direction
++ `Right click` and drag - rotate the map around the x-axis
++ `Middle click` - switch between isometric and military projections.
++ `r` - reset the map to its original rotation
 + `+` / `-` - change the height scale.
 
 # Credits
