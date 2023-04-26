@@ -39,5 +39,15 @@ The program supports zooming, translation, and rotation of the map using the mou
 + `r` - reset the map to its original rotation
 + `+` / `-` - change the height scale.
 
+# Screenshots
+
+![Screenshot of the program using 42.fdf file](img/42.png)
+
+![Screenshot of the program using mars.fdf file](img/mars_zoom.png)
+
+![Screenshot of the program using t1.fdf file](img/t1.png)
+
+![Screenshot of the program using world.fdf file](img/world.png)
+
 # Credits
 This project was developed by [valentinValep](https://github.com/valentinValep) as part of the curriculum at [École 42](https://42.fr/). The project was completed using the C programming language and the minilibx library.
