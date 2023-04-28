@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:05:28 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/28 14:37:53 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:35:27 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ typedef struct s_vector
 
 typedef struct s_camera
 {
-	double		zoom;
 	t_vector	translation;
 	t_vector	rotation;
+	double		zoom;
 }	t_camera;
 
 typedef struct s_button
@@ -85,6 +85,7 @@ void	draw_tick(t_context *context);
 void	rotate_camera(
 			t_camera *camera, double x_axis, double y_axis, double z_axis);
 void	reset_rotation(t_camera *camera);
-void	translate_camera(t_camera *camera, int x_axis, int y_axis, int z_axis);
+void	translate_camera(
+			t_camera *camera, double x_axis, double y_axis, double z_axis);
 
 #endif

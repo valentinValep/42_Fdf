@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:05:18 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/28 16:13:41 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:34:56 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,12 @@ void	right_button_tick(t_context *context)
 	if (context->mouse.right_button.is_clicked == IS_PRESSED)
 	{
 		translate_camera(&context->camera,
-			(context->mouse.y - context->mouse.right_button.start_y)
-			+ (context->mouse.x - context->mouse.right_button.start_x),
-			(context->mouse.y - context->mouse.right_button.start_y)
-			- (context->mouse.x - context->mouse.right_button.start_x),
+			((context->mouse.y - context->mouse.right_button.start_y)
+				+ (context->mouse.x - context->mouse.right_button.start_x))
+			/ context->camera.zoom,
+			((context->mouse.y - context->mouse.right_button.start_y)
+				- (context->mouse.x - context->mouse.right_button.start_x))
+			/ context->camera.zoom,
 			0);
 		context->mouse.right_button.start_x = context->mouse.x;
 		context->mouse.right_button.start_y = context->mouse.y;

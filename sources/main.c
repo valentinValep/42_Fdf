@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:05:19 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/25 17:05:20 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:22:12 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ void	init_context(t_context	*context, char **argv)
 		destroy_map(&context->map);
 		exit(basic_error("Renderer initialisation failed\n", 2));
 	}
-	context->camera = (t_camera){WINDOW_HEIGHT
-		/ sqrt(context->map.height * context->map.height
-			+ context->map.width * context->map.width),
-		(t_vector){0, 0, 0}, (t_vector){0, 0, 0}};
+	context->camera = (t_camera){(t_vector){0, 0, 0}, (t_vector){0, 0, 0},
+		WINDOW_HEIGHT / sqrt(context->map.height * context->map.height
+			+ context->map.width * context->map.width)};
 	translate_map(&context->map,
 		-(context->map.width / 2), -(context->map.height / 2), 0);
 	context->mouse = (t_mouse){0, 0, (t_button){0, 0, 0}, (t_button){0, 0, 0}};
