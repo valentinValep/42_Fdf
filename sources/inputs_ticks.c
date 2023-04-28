@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:05:18 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/28 15:45:12 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:13:41 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,30 @@ void	key_hook_tick(t_context *context, int keycode)
 		rotate_camera(&context->camera, 1, 0, 0);
 	else if (keycode == XK_Down)
 		rotate_camera(&context->camera, -1, 0, 0);
+	else if (keycode == XK_Left)
+		rotate_camera(&context->camera, 0, 0, -1);
+	else if (keycode == XK_Right)
+		rotate_camera(&context->camera, 0, 0, 1);
 	else
 		update = 0;
 	if (update)
 		context->map.is_update = 0;
 }
-#include <stdio.h>
+
 void	left_button_tick(t_context *context)
 {
 	if (context->mouse.left_button.is_clicked == IS_PRESSED)
 	{
-		printf("x<%f>, y<%f>, z<%f>\n", context->camera.rotation.x, context->camera.rotation.y, context->camera.rotation.z);
 		mlx_mouse_hide(context->renderer.mlx, context->renderer.window);
 		rotate_camera(&context->camera,
-			((context->mouse.y - context->mouse.left_button.start_y) / ROTATION_MODIFIER) * (cos(((context->camera.rotation.z - 135) * M_PI) / 180)),
-			((context->mouse.y - context->mouse.left_button.start_y) / ROTATION_MODIFIER) * (cos(((context->camera.rotation.z - 45) * M_PI) / 180)),
-			(context->mouse.x - context->mouse.left_button.start_x) / ROTATION_MODIFIER);
+			((context->mouse.y - context->mouse.left_button.start_y)
+				/ ROTATION_MODIFIER)
+			* (cos(((context->camera.rotation.z - 135) * M_PI) / 180)),
+			((context->mouse.y - context->mouse.left_button.start_y)
+				/ ROTATION_MODIFIER)
+			* (cos(((context->camera.rotation.z - 45) * M_PI) / 180)),
+			(context->mouse.x - context->mouse.left_button.start_x)
+			/ ROTATION_MODIFIER);
 		mlx_mouse_move(context->renderer.mlx, context->renderer.window,
 			context->mouse.left_button.start_x,
 			context->mouse.left_button.start_y);
