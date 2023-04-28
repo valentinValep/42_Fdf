@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:05:28 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/25 17:05:28 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:37:53 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define WINDOW_WIDTH 1920
 # define WINDOW_HEIGHT 1080
 # define ZOOM_MODIFIER 1.1
-# define ROTATION_MODIFIER 4092.
+# define ROTATION_MODIFIER 10.
 
 # define UNPRESSED 0
 # define IS_PRESSED 1
