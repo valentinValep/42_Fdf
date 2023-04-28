@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:05:24 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/25 17:05:24 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:28:18 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static void	init_transform(
 
 static void	end_tranform(t_context *context, t_point *res)
 {
-	res->x += context->camera.translation.x * context->map.translation_modifier;
-	res->y += context->camera.translation.y * context->map.translation_modifier;
-	res->z += context->camera.translation.z * context->map.translation_modifier;
+	res->x += context->camera.translation.x;
+	res->y += context->camera.translation.y;
+	res->z += context->camera.translation.z;
 	res->x *= context->camera.zoom;
 	res->y *= context->camera.zoom;
 	res->z *= context->camera.zoom;
@@ -41,9 +41,9 @@ static void	end_tranform(t_context *context, t_point *res)
 static t_point	transform(t_context *context, t_point *point)
 {
 	const t_vector	rad = (t_vector){
-		context->camera.rotation.x * M_PI / ROTATION_MODIFIER,
-		context->camera.rotation.y * M_PI / ROTATION_MODIFIER,
-		context->camera.rotation.z * M_PI / ROTATION_MODIFIER};
+		context->camera.rotation.x * M_PI / 180,
+		context->camera.rotation.y * M_PI / 180,
+		context->camera.rotation.z * M_PI / 180};
 	t_vector		tmp;
 	t_point			res;
 

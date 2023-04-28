@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:05:18 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/25 17:05:19 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:34:56 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@ void	key_hook_tick(t_context *context, int keycode)
 	else if (keycode == XK_r)
 		reset_rotation(&context->camera);
 	else if (keycode == XK_Up)
-		rotate_camera(&context->camera, 100, 0, 0);
+		rotate_camera(&context->camera, 1, 0, 0);
 	else if (keycode == XK_Down)
-		rotate_camera(&context->camera, -100, 0, 0);
+		rotate_camera(&context->camera, -1, 0, 0);
+	else if (keycode == XK_Left)
+		rotate_camera(&context->camera, 0, 0, -1);
+	else if (keycode == XK_Right)
+		rotate_camera(&context->camera, 0, 0, 1);
 	else
 		update = 0;
 	if (update)
@@ -43,9 +47,14 @@ void	left_button_tick(t_context *context)
 	{
 		mlx_mouse_hide(context->renderer.mlx, context->renderer.window);
 		rotate_camera(&context->camera,
-			-(context->mouse.y - context->mouse.left_button.start_y),
-			0,
-			context->mouse.x - context->mouse.left_button.start_x);
+			((context->mouse.y - context->mouse.left_button.start_y)
+				/ ROTATION_MODIFIER)
+			* (cos(((context->camera.rotation.z - 135) * M_PI) / 180)),
+			((context->mouse.y - context->mouse.left_button.start_y)
+				/ ROTATION_MODIFIER)
+			* (cos(((context->camera.rotation.z - 45) * M_PI) / 180)),
+			(context->mouse.x - context->mouse.left_button.start_x)
+			/ ROTATION_MODIFIER);
 		mlx_mouse_move(context->renderer.mlx, context->renderer.window,
 			context->mouse.left_button.start_x,
 			context->mouse.left_button.start_y);
@@ -65,10 +74,12 @@ void	right_button_tick(t_context *context)
 	if (context->mouse.right_button.is_clicked == IS_PRESSED)
 	{
 		translate_camera(&context->camera,
-			(context->mouse.y - context->mouse.right_button.start_y)
-			+ (context->mouse.x - context->mouse.right_button.start_x),
-			(context->mouse.y - context->mouse.right_button.start_y)
-			- (context->mouse.x - context->mouse.right_button.start_x),
+			((context->mouse.y - context->mouse.right_button.start_y)
+				+ (context->mouse.x - context->mouse.right_button.start_x))
+			/ context->camera.zoom,
+			((context->mouse.y - context->mouse.right_button.start_y)
+				- (context->mouse.x - context->mouse.right_button.start_x))
+			/ context->camera.zoom,
 			0);
 		context->mouse.right_button.start_x = context->mouse.x;
 		context->mouse.right_button.start_y = context->mouse.y;

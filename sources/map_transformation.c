@@ -6,13 +6,14 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:05:21 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/25 17:05:22 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:35:47 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	translate_camera(t_camera *camera, int x_axis, int y_axis, int z_axis)
+void	translate_camera(
+	t_camera *camera, double x_axis, double y_axis, double z_axis)
 {
 	camera->translation.x += x_axis;
 	camera->translation.y += y_axis;

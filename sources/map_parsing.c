@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:05:20 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/25 17:05:21 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:28:12 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,6 @@ static int	end_parsing(t_map *map)
 	set_map_color(map);
 	map->position = (t_point){0, 0, 0, 0};
 	map->rotation = (t_point){0, 0, 0, 0};
-	if (map->width > map->height)
-		map->translation_modifier = map->width / 800.;
-	else
-		map->translation_modifier = map->height / 800.;
 	if (diff < 50)
 		map->height_scale = 0.08;
 	else if (diff < 120)

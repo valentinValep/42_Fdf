@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:05:29 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/25 17:05:29 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:29:21 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_map
 	t_point			rotation;
 	t_point			*points_tab;
 	size_t			malloc_size;
-	float			translation_modifier;
 	double			height_scale;
 	unsigned int	height;
 	unsigned int	width;
