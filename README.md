@@ -50,4 +50,5 @@ The program supports zooming, translation, and rotation of the map using the mou
 ![Screenshot of the program using world.fdf file](img/world.png)
 
 # Credits
-This project was developed by [valentinValep](https://github.com/valentinValep) as part of the curriculum at [École 42](https://42.fr/). The project was completed using the C programming language and the minilibx library.
+This project was developed by [valentinValep](https://github.com/valentinValep) as part of the curriculum at [École 42](https://42.fr/). The project was completed using the C programming language and the [minilibx library](https://github.com/42Paris/minilibx-linux).
+It also use my [FdF Renderer lib](https://github.com/valentinValep/42_FdF_renderer) and my [42 libft](https://github.com/valentinValep/42_libft).
